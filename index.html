@@ -3,422 +3,566 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BSS Operations | Próximamente</title>
-  <meta name="description" content="BSS Operations - Gestión de Permiso Único en Puerto Rico (OGPe). Página en construcción." />
+  <title>BSS Public Profiles</title>
+  <meta name="description" content="Perfiles públicos de negocios en BSS Operations" />
   <style>
     :root{
-      --bg:#0b1220;
-      --bg2:#111827;
-      --card:rgba(17,24,39,.72);
-      --text:#f8fafc;
-      --muted:#cbd5e1;
-      --line:rgba(255,255,255,.14);
-      --accent:#22c55e;
-      --accent-dark:#16a34a;
-      --accent-2:#38bdf8;
-      --shadow:0 20px 60px rgba(0,0,0,.35);
-      --radius:22px;
-      --max:1120px;
+      --bg:#f8fafc;
+      --card:#ffffff;
+      --dark:#020617;
+      --muted:#64748b;
+      --line:#e2e8f0;
+      --sky:#38bdf8;
+      --sky2:#0ea5e9;
+      --indigo:#4f46e5;
+      --shadow:0 18px 45px rgba(15,23,42,.08);
+      --radius:28px;
+      --max:1220px;
     }
-
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
     body{
       margin:0;
-      font-family: Arial, Helvetica, sans-serif;
-      color:var(--text);
-      background:
-        linear-gradient(rgba(7,10,18,.62), rgba(7,10,18,.76)),
-        url('https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat fixed;
-      min-height:100vh;
+      font-family:Arial, Helvetica, sans-serif;
+      color:#0f172a;
+      background:linear-gradient(180deg,#f8fafc 0%,#eff6ff 100%);
     }
-
-    .overlay{
-      min-height:100vh;
-      background:linear-gradient(180deg, rgba(11,18,32,.45) 0%, rgba(11,18,32,.75) 55%, rgba(11,18,32,.95) 100%);
-    }
-
     .wrap{
       width:min(calc(100% - 32px), var(--max));
       margin:0 auto;
     }
-
     header{
-      padding:22px 0;
+      padding:28px 0 18px;
     }
-
-    .nav{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      padding:14px 18px;
-      border:1px solid var(--line);
-      border-radius:18px;
-      background:rgba(15,23,42,.55);
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow);
+    .hero{
+      overflow:hidden;
+      border-radius:36px;
+      background:
+        radial-gradient(circle at top right, rgba(56,189,248,.22), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(79,70,229,.18), transparent 32%),
+        linear-gradient(135deg,#020617 0%,#0f172a 48%,#1e1b4b 100%);
+      color:white;
+      box-shadow:var(--shadow);
     }
-
-    .brand{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.25fr .75fr;
+      gap:28px;
+      padding:42px;
     }
-
-    .brand strong{
-      letter-spacing:.6px;
-      font-size:1.15rem;
-    }
-
-    .brand span{
-      color:var(--muted);
-      font-size:.92rem;
-    }
-
-    .pill{
+    .eyebrow{
       display:inline-flex;
       align-items:center;
       gap:8px;
-      border:1px solid rgba(56,189,248,.28);
-      background:rgba(56,189,248,.12);
-      color:#d8f3ff;
+      border-radius:999px;
       padding:9px 14px;
-      border-radius:999px;
+      background:rgba(56,189,248,.14);
+      border:1px solid rgba(56,189,248,.24);
+      color:#d7f3ff;
       font-size:.92rem;
-      text-decoration:none;
-      white-space:nowrap;
-    }
-
-    .hero{
-      padding:34px 0 48px;
-    }
-
-    .hero-card{
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      background:var(--card);
-      backdrop-filter: blur(12px);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-
-    .hero-grid{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:0;
-    }
-
-    .hero-copy{
-      padding:56px 44px;
-    }
-
-    .eyebrow{
-      display:inline-block;
-      margin-bottom:18px;
-      padding:8px 12px;
-      border-radius:999px;
-      background:rgba(34,197,94,.12);
-      border:1px solid rgba(34,197,94,.24);
-      color:#dcfce7;
-      font-size:.9rem;
       font-weight:700;
-      letter-spacing:.3px;
-    }
-
-    h1{
-      margin:0 0 16px;
-      font-size:clamp(2rem, 4vw, 4rem);
-      line-height:1.08;
-    }
-
-    .lead{
-      font-size:1.08rem;
-      line-height:1.7;
-      color:var(--muted);
-      margin:0 0 26px;
-      max-width:42rem;
-    }
-
-    .checks{
-      display:grid;
-      grid-template-columns:repeat(2, minmax(0,1fr));
-      gap:12px;
-      margin:0 0 28px;
-      padding:0;
-      list-style:none;
-    }
-
-    .checks li{
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.04);
-      border-radius:14px;
-      padding:14px 14px;
-      color:#e5e7eb;
-      font-size:.98rem;
-    }
-
-    .cta-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:14px;
       margin-bottom:16px;
     }
-
+    h1{
+      margin:0 0 14px;
+      font-size:clamp(2.1rem,4vw,4rem);
+      line-height:1.05;
+    }
+    .lead{
+      color:#cbd5e1;
+      font-size:1.05rem;
+      line-height:1.75;
+      max-width:760px;
+      margin:0 0 24px;
+    }
+    .hero-buttons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:14px;
+    }
     .btn{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      gap:10px;
       min-height:50px;
-      padding:0 20px;
-      border-radius:14px;
-      font-weight:700;
+      padding:0 18px;
+      border-radius:16px;
       text-decoration:none;
-      border:1px solid transparent;
+      font-weight:700;
       transition:.2s ease;
+      border:1px solid transparent;
     }
-
     .btn-primary{
-      background:var(--accent);
-      color:#052e16;
+      background:var(--sky);
+      color:#082f49;
     }
-
-    .btn-primary:hover{background:var(--accent-dark)}
+    .btn-primary:hover{background:#7dd3fc}
     .btn-secondary{
-      background:rgba(255,255,255,.06);
-      border-color:var(--line);
-      color:var(--text);
+      background:rgba(255,255,255,.08);
+      color:white;
+      border-color:rgba(255,255,255,.12);
     }
-    .btn-secondary:hover{background:rgba(255,255,255,.11)}
-
-    .small-note{
-      color:#94a3b8;
-      font-size:.95rem;
-      margin:10px 0 0;
+    .btn-secondary:hover{background:rgba(255,255,255,.14)}
+    .hero-boxes{
+      display:grid;
+      gap:14px;
+      grid-template-columns:repeat(2,1fr);
+      align-content:start;
+    }
+    .hero-box{
+      border-radius:24px;
+      padding:18px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.1);
+      backdrop-filter: blur(10px);
+    }
+    .hero-box strong{
+      display:block;
+      margin-bottom:6px;
+      font-size:1.05rem;
     }
 
-    .hero-side{
-      padding:26px;
-      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
-      border-left:1px solid var(--line);
+    main{padding:18px 0 48px}
+    .toolbar{
+      display:grid;
+      grid-template-columns:1.5fr .8fr;
+      gap:16px;
+      margin:0 0 20px;
+    }
+    .search-card,.note-card,.profile-card,.side-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:26px;
+      box-shadow:var(--shadow);
+    }
+    .search-card,.note-card{padding:16px}
+    .search-input{
       display:flex;
       align-items:center;
-    }
-
-    .info-card{
-      width:100%;
+      gap:10px;
       border:1px solid var(--line);
-      border-radius:20px;
-      background:rgba(2,6,23,.45);
-      padding:24px;
-    }
-
-    .info-card h2{
-      margin:0 0 10px;
-      font-size:1.3rem;
-    }
-
-    .info-card p{
-      margin:0 0 20px;
-      line-height:1.65;
+      border-radius:18px;
+      padding:14px 16px;
       color:var(--muted);
     }
+    .search-input input{
+      width:100%;
+      border:none;
+      outline:none;
+      font-size:1rem;
+      background:transparent;
+    }
+    .note-card{
+      color:#334155;
+      line-height:1.65;
+    }
 
-    .stat{
+    .content{
       display:grid;
-      grid-template-columns:1fr 1fr;
+      grid-template-columns:1.2fr .8fr;
+      gap:20px;
+    }
+    .profiles{
+      display:grid;
+      gap:18px;
+    }
+    .profile-card{
+      padding:20px;
+      overflow:hidden;
+    }
+    .theme-banner{
+      border-radius:28px;
+      padding:22px;
+      color:white;
+      position:relative;
+      overflow:hidden;
+    }
+    .theme-dark{
+      background:linear-gradient(135deg,#020617,#0f172a 55%,#1e293b);
+    }
+    .theme-light{
+      background:linear-gradient(135deg,#ffffff,#f1f5f9 55%,#dbeafe);
+      color:#0f172a;
+      border:1px solid #dbeafe;
+    }
+    .theme-accent{
+      background:linear-gradient(135deg,#0284c7,#2563eb 58%,#4338ca);
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:.82rem;
+      font-weight:700;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.12);
+      margin-bottom:12px;
+    }
+    .theme-light .badge{
+      background:rgba(15,23,42,.06);
+      border-color:#dbeafe;
+    }
+    .profile-title{
+      display:flex;
+      align-items:start;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:10px;
+    }
+    .profile-title h2{
+      margin:0;
+      font-size:1.8rem;
+    }
+    .tagline{
+      margin:8px 0 0;
+      opacity:.9;
+      line-height:1.6;
+    }
+    .chip-row{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
       gap:12px;
-      margin-bottom:20px;
+      margin-top:18px;
     }
-
-    .stat div{
-      border:1px solid var(--line);
-      border-radius:16px;
-      background:rgba(255,255,255,.04);
-      padding:14px;
+    .chip{
+      border-radius:18px;
+      padding:12px 14px;
+      background:rgba(255,255,255,.12);
+      backdrop-filter:blur(8px);
+      font-size:.94rem;
     }
-
-    .stat strong{
-      display:block;
-      font-size:1.3rem;
-      margin-bottom:4px;
+    .theme-light .chip{
+      background:rgba(15,23,42,.05);
     }
-
-    .contact-box{
-      border-top:1px solid var(--line);
-      padding-top:18px;
+    .banner-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
     }
-
-    .contact-box a{
-      color:#dbeafe;
+    .banner-actions a{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:44px;
+      padding:0 16px;
+      border-radius:14px;
       text-decoration:none;
-      display:block;
-      margin:8px 0;
-      word-break:break-word;
+      font-weight:700;
+    }
+    .action-white{
+      background:white;
+      color:#0f172a;
+    }
+    .action-clear{
+      background:rgba(255,255,255,.08);
+      color:inherit;
+      border:1px solid rgba(255,255,255,.14);
+    }
+    .profile-bottom{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:14px;
+      margin-top:16px;
+    }
+    .inner-box{
+      background:#f8fafc;
+      border-radius:20px;
+      padding:16px;
+    }
+    .inner-label{
+      color:#94a3b8;
+      font-size:.78rem;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      margin-bottom:8px;
+    }
+    .inner-box p{
+      margin:0;
+      color:#475569;
+      line-height:1.7;
+    }
+    .info-list{
+      display:grid;
+      gap:10px;
+      color:#334155;
+      font-size:.95rem;
     }
 
-    section{
-      padding:18px 0 40px;
+    .side-stack{
+      display:grid;
+      gap:18px;
     }
-
-    .section-card{
-      border:1px solid var(--line);
-      border-radius:22px;
-      background:rgba(15,23,42,.62);
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow);
-      padding:34px 26px;
+    .side-card{
+      padding:22px;
     }
-
-    .section-card h3{
+    .side-card h3{
       margin:0 0 12px;
-      font-size:1.6rem;
+      font-size:1.35rem;
     }
-
-    .section-card p{
+    .side-card p{
+      margin:0;
       color:var(--muted);
       line-height:1.7;
-      margin:0;
+    }
+    .step{
+      margin-top:14px;
+      padding:14px;
+      background:#f8fafc;
+      border-radius:18px;
+      color:#334155;
+      line-height:1.6;
+    }
+    .dark-side{
+      background:linear-gradient(160deg,#020617,#0f172a 58%,#1e1b4b);
+      color:white;
+      border:none;
+    }
+    .dark-side p,.dark-side li{
+      color:#cbd5e1;
+    }
+    .dark-side ul{
+      margin:14px 0 0;
+      padding-left:18px;
+      line-height:1.8;
     }
 
     footer{
-      padding:0 0 32px;
-      color:#94a3b8;
       text-align:center;
-      font-size:.93rem;
+      color:#64748b;
+      padding:0 0 36px;
+      font-size:.95rem;
     }
 
-    .admin{
-      margin-top:16px;
-      border-top:1px dashed rgba(255,255,255,.15);
-      padding-top:14px;
-      font-size:.9rem;
-      color:#cbd5e1;
+    @media (max-width: 980px){
+      .hero-grid,.content,.profile-bottom{grid-template-columns:1fr}
+      .toolbar{grid-template-columns:1fr}
     }
-
-    code{
-      background:rgba(255,255,255,.08);
-      padding:2px 6px;
-      border-radius:8px;
-    }
-
-    @media (max-width: 900px){
-      .hero-grid{grid-template-columns:1fr}
-      .hero-side{border-left:none; border-top:1px solid var(--line)}
-      .checks{grid-template-columns:1fr}
-      .hero-copy{padding:34px 22px}
-    }
-
-    @media (max-width: 520px){
-      .nav{padding:12px 14px}
-      .pill{font-size:.82rem}
-      .cta-row{flex-direction:column}
-      .btn{width:100%}
-      .stat{grid-template-columns:1fr}
+    @media (max-width: 700px){
+      .hero-grid{padding:26px}
+      .hero-boxes,.chip-row{grid-template-columns:1fr}
+      .profile-title{flex-direction:column}
     }
   </style>
 </head>
 <body>
-  <div class="overlay">
-    <header class="wrap">
-      <div class="nav">
-        <div class="brand">
-          <strong>BSS Operations</strong>
-          <span>Business Support Services</span>
-        </div>
-        <a class="pill" href="#contacto">Sitio en construcción</a>
-      </div>
-    </header>
-
-    <main class="wrap hero">
-      <div class="hero-card">
-        <div class="hero-grid">
-          <div class="hero-copy">
-            <div class="eyebrow">Próximamente</div>
-            <h1>Gestión de Permiso Único en Puerto Rico</h1>
-            <p class="lead">
-              Estamos preparando una experiencia más rápida y profesional para ayudarte con la
-              gestión y renovación de permisos comerciales. Mientras tanto, puedes comunicarte
-              directamente con BSS Operations para comenzar tu proceso.
-            </p>
-
-            <ul class="checks">
-              <li>Renovación de Permiso Único (OGPe)</li>
-              <li>Servicio profesional y personalizado</li>
-              <li>Atención remota y seguimiento claro</li>
-              <li>Preparado para crecer contigo</li>
-            </ul>
-
-            <div class="cta-row">
-              <a class="btn btn-primary" id="whatsappBtn" href="https://wa.me/10000000000" target="_blank" rel="noopener noreferrer">Hablar por WhatsApp</a>
-              <a class="btn btn-secondary" href="mailto:info@bssoperations.com">Escribir por Email</a>
-            </div>
-
-            <p class="small-note">
-              Edita fácilmente el texto, teléfono, email, enlaces y colores dentro de este mismo archivo.
-            </p>
+  <header class="wrap">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">BSS Public Profiles</div>
+          <h1>Un espacio público estilo MySpace para que tus clientes promocionen su negocio</h1>
+          <p class="lead">
+            Cada negocio puede tener su propio perfil público con estilo visual, promociones, enlaces,
+            teléfono, ciudad y personalidad propia. BSS se convierte en la plataforma que les da presencia,
+            sin exponer la operación interna.
+          </p>
+          <div class="hero-buttons">
+            <a class="btn btn-primary" href="#">Crear perfil demo</a>
+            <a class="btn btn-secondary" href="#">Ver cómo funciona</a>
           </div>
-
-          <aside class="hero-side">
-            <div class="info-card">
-              <h2>BSS Operations</h2>
-              <p>
-                Soluciones administrativas enfocadas en permisos comerciales y apoyo operativo para negocios.
-              </p>
-
-              <div class="stat">
-                <div>
-                  <strong>OGPe</strong>
-                  <span>Gestión enfocada</span>
-                </div>
-                <div>
-                  <strong>PR</strong>
-                  <span>Puerto Rico</span>
-                </div>
-              </div>
-
-              <div class="contact-box" id="contacto">
-                <a href="mailto:info@bssoperations.com"><strong>Email:</strong> info@bssoperations.com</a>
-                <a href="https://wa.me/10000000000" target="_blank" rel="noopener noreferrer"><strong>WhatsApp:</strong> +1 (000) 000-0000</a>
-                <a href="#"><strong>Dominio:</strong> bssoperations.com</a>
-              </div>
-
-              <div class="admin">
-                <strong>Guía rápida de edición:</strong><br>
-                Cambia <code>info@bssoperations.com</code> por tu email real y reemplaza
-                <code>10000000000</code> por tu número de WhatsApp en formato internacional.
-              </div>
-            </div>
-          </aside>
+        </div>
+        <div class="hero-boxes">
+          <div class="hero-box">
+            <strong>Perfiles públicos</strong>
+            Mini-sitios editables para cada negocio.
+          </div>
+          <div class="hero-box">
+            <strong>Edición libre</strong>
+            Textos, promos, estilo y enlaces personalizados.
+          </div>
+          <div class="hero-box">
+            <strong>Más visibilidad</strong>
+            Cada cliente promociona su marca.
+          </div>
+          <div class="hero-box">
+            <strong>Modelo seguro</strong>
+            Público para marketing, privado para operación.
+          </div>
         </div>
       </div>
-    </main>
+    </section>
+  </header>
 
-    <section class="wrap">
-      <div class="section-card">
-        <h3>Estamos construyendo una plataforma más completa</h3>
-        <p>
-          Muy pronto podrás conocer mejor nuestros servicios, solicitar asistencia y comunicarte
-          con nosotros desde una página diseñada para ayudarte de forma más rápida.
-        </p>
+  <main class="wrap">
+    <section class="toolbar">
+      <div class="search-card">
+        <div class="search-input">
+          🔎
+          <input type="text" placeholder="Buscar negocio, ciudad o categoría..." />
+        </div>
+      </div>
+      <div class="note-card">
+        Modelo recomendado: <strong>promoción pública</strong> y manejo operativo en privado.
       </div>
     </section>
 
-    <footer class="wrap">
-      © 2026 BSS Operations. Todos los derechos reservados.
-    </footer>
-  </div>
+    <section class="content">
+      <div class="profiles">
 
-  <script>
-    // Puedes cambiar aquí el número si prefieres editarlo en un solo lugar.
-    const whatsappNumber = "10000000000"; // Ejemplo: 17875551234
-    const whatsappMessage = encodeURIComponent("Hola, quiero información sobre los servicios de BSS Operations.");
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+        <article class="profile-card">
+          <div class="theme-banner theme-dark">
+            <div class="badge">Perfil público editable</div>
+            <div class="profile-title">
+              <div>
+                <h2>Smoke City Downtown</h2>
+                <p class="tagline">Tu tienda especializada con estilo propio.</p>
+              </div>
+              <div>Smoke Shop</div>
+            </div>
 
-    document.querySelectorAll('a[href^="https://wa.me/"]').forEach(link => {
-      link.href = whatsappUrl;
-    });
-  </script>
+            <div class="chip-row">
+              <div class="chip">Promoción semanal</div>
+              <div class="chip">Nuevos productos</div>
+              <div class="chip">Abierto 7 días</div>
+            </div>
+
+            <div class="banner-actions">
+              <a class="action-white" href="#">Ver espacio</a>
+              <a class="action-clear" href="#">Contactar negocio</a>
+            </div>
+          </div>
+
+          <div class="profile-bottom">
+            <div class="inner-box">
+              <div class="inner-label">Acerca del negocio</div>
+              <p>
+                Este espacio representa un perfil público que el cliente puede editar a su gusto.
+                Aquí puede subir promociones, descripción, horarios, frases de marca y enlaces
+                importantes para que su negocio se vea vivo y con personalidad.
+              </p>
+            </div>
+            <div class="inner-box">
+              <div class="inner-label">Información visible</div>
+              <div class="info-list">
+                <div>📍 Ponce, PR</div>
+                <div>📞 (787) 555-1200</div>
+                <div>🌐 www.smokecitydemo.com</div>
+                <div>⭐ 4.8 valoración demo</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="profile-card">
+          <div class="theme-banner theme-light">
+            <div class="badge">Perfil público editable</div>
+            <div class="profile-title">
+              <div>
+                <h2>Vapor World Express</h2>
+                <p class="tagline">Rápido, moderno y fácil de encontrar.</p>
+              </div>
+              <div>Retail</div>
+            </div>
+
+            <div class="chip-row">
+              <div class="chip">Especial del mes</div>
+              <div class="chip">Ubicación visible</div>
+              <div class="chip">Perfil personalizable</div>
+            </div>
+
+            <div class="banner-actions">
+              <a class="action-white" href="#">Ver espacio</a>
+              <a class="action-clear" href="#">Contactar negocio</a>
+            </div>
+          </div>
+
+          <div class="profile-bottom">
+            <div class="inner-box">
+              <div class="inner-label">Acerca del negocio</div>
+              <p>
+                Cada negocio puede editar su portada, bio, colores, promociones y enlaces para que
+                su espacio público se sienta como una mini web propia dentro de la plataforma BSS.
+              </p>
+            </div>
+            <div class="inner-box">
+              <div class="inner-label">Información visible</div>
+              <div class="info-list">
+                <div>📍 Mayagüez, PR</div>
+                <div>📞 (787) 555-2233</div>
+                <div>🌐 www.vaporworlddemo.com</div>
+                <div>⭐ 4.6 valoración demo</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="profile-card">
+          <div class="theme-banner theme-accent">
+            <div class="badge">Perfil público editable</div>
+            <div class="profile-title">
+              <div>
+                <h2>Comercio Demo Plus</h2>
+                <p class="tagline">Promociona tu negocio desde tu propio espacio.</p>
+              </div>
+              <div>Servicios</div>
+            </div>
+
+            <div class="chip-row">
+              <div class="chip">Espacio editable</div>
+              <div class="chip">Más visibilidad</div>
+              <div class="chip">Diseño tipo perfil</div>
+            </div>
+
+            <div class="banner-actions">
+              <a class="action-white" href="#">Ver espacio</a>
+              <a class="action-clear" href="#">Contactar negocio</a>
+            </div>
+          </div>
+
+          <div class="profile-bottom">
+            <div class="inner-box">
+              <div class="inner-label">Acerca del negocio</div>
+              <p>
+                Este tipo de perfil sirve como vitrina comercial pública. El negocio puede destacar
+                su marca, compartir promos, poner WhatsApp y atraer visitas sin necesitar otra web.
+              </p>
+            </div>
+            <div class="inner-box">
+              <div class="inner-label">Información visible</div>
+              <div class="info-list">
+                <div>📍 Aguadilla, PR</div>
+                <div>📞 (787) 555-8899</div>
+                <div>🌐 www.comerciodemoplus.com</div>
+                <div>⭐ 5.0 valoración demo</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <aside class="side-stack">
+        <section class="side-card">
+          <h3>Cómo funciona</h3>
+          <p>Este modelo separa muy bien lo público de lo privado.</p>
+          <div class="step"><strong>1.</strong> BSS crea o activa el perfil del negocio.</div>
+          <div class="step"><strong>2.</strong> El cliente personaliza su espacio público.</div>
+          <div class="step"><strong>3.</strong> El perfil se usa para promoción y visibilidad.</div>
+          <div class="step"><strong>4.</strong> La operación real queda fuera del área pública.</div>
+        </section>
+
+        <section class="side-card dark-side">
+          <h3>Próximo paso inteligente</h3>
+          <p>
+            Convertir cada tarjeta en una URL individual como:
+            <strong> bssoperations.com/perfiles/smoke-city </strong>
+          </p>
+          <ul>
+            <li>Perfil individual por negocio</li>
+            <li>Banner y portada personalizable</li>
+            <li>Promos, horarios, links y WhatsApp</li>
+            <li>Luego: login y panel privado</li>
+          </ul>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    © 2026 BSS Operations. Todos los derechos reservados.
+  </footer>
 </body>
 </html>
