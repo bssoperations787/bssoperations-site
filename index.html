@@ -4,224 +4,82 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BSS Business Profiles</title>
-  <meta name="description" content="Perfiles seleccionados de negocios dentro de BSS Operations.">
-
   <style>
-    :root{
-      --bg:#0f172a;
-      --card:#1e293b;
-      --line:rgba(255,255,255,.10);
-      --text:#ffffff;
-      --muted:#cbd5e1;
-      --accent:#38bdf8;
-      --danger:#ef4444;
-      --ok:#22c55e;
-      --wrap:1100px;
-    }
-
-    *{box-sizing:border-box}
-
     body{
       margin:0;
       font-family:Arial, Helvetica, sans-serif;
       background:linear-gradient(180deg,#0f172a,#020617);
-      color:var(--text);
+      color:white;
     }
-
     .wrap{
-      width:min(calc(100% - 32px), var(--wrap));
+      width:min(calc(100% - 32px), 1100px);
       margin:0 auto;
       padding:24px 0 40px;
     }
-
     .hero{
       background:linear-gradient(135deg,#1e293b,#111827);
-      border:1px solid var(--line);
+      border:1px solid rgba(255,255,255,.12);
       border-radius:24px;
-      padding:28px;
+      padding:24px;
       margin-bottom:20px;
     }
-
-    .hero h1{
-      margin:0 0 10px;
-      font-size:2.2rem;
-    }
-
-    .hero p{
-      margin:0;
-      color:var(--muted);
-      line-height:1.7;
-    }
-
-    .status-bar{
-      margin-top:18px;
-      display:grid;
-      gap:10px;
-    }
-
+    .hero h1{margin:0 0 10px;font-size:2rem}
+    .hero p{margin:0;color:#cbd5e1;line-height:1.7}
     .status{
+      margin-top:16px;
       padding:14px 16px;
       border-radius:14px;
-      border:1px solid var(--line);
+      border:1px solid rgba(255,255,255,.12);
       background:rgba(255,255,255,.04);
       color:#e2e8f0;
     }
-
-    .status.ok{
-      border-color:rgba(34,197,94,.35);
-      background:rgba(34,197,94,.10);
-    }
-
-    .status.error{
-      border-color:rgba(239,68,68,.35);
-      background:rgba(239,68,68,.10);
-    }
-
-    .toolbar{
-      display:grid;
-      grid-template-columns:1fr auto;
-      gap:12px;
-      margin-bottom:20px;
-    }
-
-    .search{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      background:#111827;
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:14px 16px;
-      color:var(--muted);
-    }
-
-    .search input{
-      width:100%;
-      border:none;
-      outline:none;
-      background:transparent;
-      color:white;
-      font-size:1rem;
-    }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-height:48px;
-      padding:0 18px;
-      border:none;
-      border-radius:14px;
-      background:var(--accent);
-      color:#082f49;
-      font-weight:700;
-      text-decoration:none;
-      cursor:pointer;
-    }
-
     .cards{
       display:grid;
       gap:16px;
     }
-
     .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:22px;
+      background:#1e293b;
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:20px;
       padding:20px;
     }
-
-    .card-top{
-      display:grid;
-      grid-template-columns:80px 1fr;
-      gap:16px;
-      align-items:start;
-      margin-bottom:16px;
-    }
-
     .logo{
       width:80px;
       height:80px;
       object-fit:cover;
-      border-radius:16px;
+      border-radius:14px;
       background:#0f172a;
       border:1px solid rgba(255,255,255,.12);
     }
-
-    .card h2{
-      margin:0 0 8px;
-      font-size:1.5rem;
-    }
-
-    .tagline{
-      color:var(--muted);
-      margin:0;
-      line-height:1.6;
-    }
-
-    .info{
+    .row{
       display:grid;
-      gap:8px;
-      margin-top:14px;
-      color:#e5e7eb;
+      grid-template-columns:90px 1fr;
+      gap:16px;
+      align-items:start;
     }
-
-    .debug{
-      margin-top:18px;
-      background:#020617;
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:16px;
-      padding:14px;
-      font-family:Consolas, monospace;
-      font-size:.9rem;
-      white-space:pre-wrap;
-      color:#cbd5e1;
-    }
-
+    .muted{color:#cbd5e1}
     .empty{
       text-align:center;
-      padding:30px;
+      padding:28px;
       border-radius:20px;
-      border:1px dashed rgba(255,255,255,.18);
-      color:var(--muted);
+      border:1px dashed rgba(255,255,255,.15);
+      color:#cbd5e1;
       background:rgba(255,255,255,.03);
     }
-
-    .flags{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:12px;
-    }
-
-    .flag{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:8px 12px;
-      border-radius:999px;
+    .debug{
+      margin-top:16px;
+      background:#020617;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:14px;
+      padding:12px;
+      white-space:pre-wrap;
+      overflow:auto;
+      font-family:Consolas, monospace;
       font-size:.9rem;
-      font-weight:700;
-      background:rgba(255,255,255,.08);
-      color:#e2e8f0;
-      border:1px solid rgba(255,255,255,.10);
+      color:#cbd5e1;
     }
-
-    .flag.ok{
-      background:rgba(34,197,94,.12);
-      color:#dcfce7;
-      border-color:rgba(34,197,94,.24);
-    }
-
-    .flag.bad{
-      background:rgba(239,68,68,.12);
-      color:#fee2e2;
-      border-color:rgba(239,68,68,.24);
-    }
-
     @media (max-width:700px){
-      .toolbar{grid-template-columns:1fr}
-      .card-top{grid-template-columns:1fr}
+      .row{grid-template-columns:1fr}
       .logo{width:100px;height:100px}
     }
   </style>
@@ -230,37 +88,23 @@
   <div class="wrap">
     <section class="hero">
       <h1>BSS Business Profiles</h1>
-      <p>
-        Esta versión está hecha para confirmar conexión con Supabase y mostrar exactamente qué datos está leyendo el website.
-      </p>
-
-      <div class="status-bar">
-        <div class="status" id="connectionStatus">Conectando con Supabase...</div>
-        <div class="status" id="countStatus">Esperando datos...</div>
-      </div>
-    </section>
-
-    <section class="toolbar">
-      <div class="search">
-        🔎
-        <input type="text" id="searchInput" placeholder="Buscar negocio...">
-      </div>
-
-      <a class="btn" href="admin-generator.html">Abrir Admin Generator</a>
+      <p>Prueba directa de conexión con Supabase.</p>
+      <div class="status" id="statusBox">Conectando...</div>
     </section>
 
     <section class="cards" id="profiles"></section>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script>
-    const SUPABASE_URL = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcGlwdXJjb3p0eGFucmR3enZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTc0MDIsImV4cCI6MjA5MjA5MzQwMn0.E33Gc3OyYkig81xsvF6T9r_ANtFbSUc24D1vLenn3y4";
-    const SUPABASE_KEY = "sb_publishable_HN06LJy1sLPPCVSJ9jQ4NQ_FreY5Gjp";
+    const SUPABASE_URL = "https://ikpipurcoztxanrdwzvm.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcGlwdXJjb3p0eGFucmR3enZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTc0MDIsImV4cCI6MjA5MjA5MzQwMn0.E33Gc3OyYkig81xsvF6T9r_ANtFbSUc24D1vLenn3y4";
 
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    let allBusinesses = [];
+    function safe(v, fallback = "VACÍO") {
+      return v === null || v === undefined || v === "" ? fallback : v;
+    }
 
     function canPublish(b) {
       return (
@@ -273,113 +117,54 @@
       );
     }
 
-    function safe(value, fallback = "VACÍO") {
-      if (value === null || value === undefined || value === "") return fallback;
-      return value;
-    }
-
-    function renderProfiles() {
-      const container = document.getElementById("profiles");
-      const query = document.getElementById("searchInput").value.trim().toLowerCase();
-
-      const filtered = allBusinesses.filter((b) => {
-        const haystack = [
-          b.name || "",
-          b.category || "",
-          b.city || "",
-          b.address || "",
-          b.tagline || "",
-          b.bio || ""
-        ].join(" ").toLowerCase();
-
-        return haystack.includes(query);
-      });
-
-      document.getElementById("countStatus").textContent =
-        `Filas cargadas desde Supabase: ${allBusinesses.length} | Mostrando: ${filtered.length}`;
-
-      if (filtered.length === 0) {
-        container.innerHTML = `
-          <div class="empty">
-            No hay filas visibles en este momento.<br>
-            Si la tabla tiene datos, entonces el problema está en la conexión o en la política de lectura.
-          </div>
-        `;
-        return;
-      }
-
-      container.innerHTML = filtered.map((b) => {
-        const publish = canPublish(b);
-
-        return `
-          <article class="card">
-            <div class="card-top">
-              <img class="logo" src="${safe(b.logo, "")}" alt="Logo" onerror="this.style.display='none'">
-              <div>
-                <h2>${safe(b.name, "SIN NAME")}</h2>
-                <p class="tagline">${safe(b.tagline, "SIN TAGLINE")}</p>
-
-                <div class="flags">
-                  <span class="flag ${b.source === 'honeybook' ? 'ok' : 'bad'}">source: ${safe(b.source)}</span>
-                  <span class="flag ${b.isclient === true ? 'ok' : 'bad'}">isclient: ${String(b.isclient)}</span>
-                  <span class="flag ${b.logo ? 'ok' : 'bad'}">logo: ${b.logo ? 'OK' : 'FALTA'}</span>
-                  <span class="flag ${b.name ? 'ok' : 'bad'}">name: ${b.name ? 'OK' : 'FALTA'}</span>
-                  <span class="flag ${b.address ? 'ok' : 'bad'}">address: ${b.address ? 'OK' : 'FALTA'}</span>
-                  <span class="flag ${b.hours ? 'ok' : 'bad'}">hours: ${b.hours ? 'OK' : 'FALTA'}</span>
-                  <span class="flag ${publish ? 'ok' : 'bad'}">publish: ${publish ? 'YES' : 'NO'}</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="info">
-              <div>📍 address: ${safe(b.address)}</div>
-              <div>🏙 city: ${safe(b.city)}</div>
-              <div>🕒 hours: ${safe(b.hours)}</div>
-              <div>📞 phone: ${safe(b.phone)}</div>
-              <div>🌐 website: ${safe(b.website)}</div>
-              <div>📂 profileurl: ${safe(b.profileurl)}</div>
-              <div>⭐ featured: ${safe(b.featured)}</div>
-              <div>📝 bio: ${safe(b.bio)}</div>
-            </div>
-
-            <div class="debug">${JSON.stringify(b, null, 2)}</div>
-          </article>
-        `;
-      }).join("");
-    }
-
     async function loadProfiles() {
-      const connectionStatus = document.getElementById("connectionStatus");
+      const statusBox = document.getElementById("statusBox");
+      const profiles = document.getElementById("profiles");
 
       try {
-        const { data, error } = await supabaseClient
+        const { data, error } = await client
           .from("businesses")
           .select("*")
           .order("id", { ascending: true });
 
         if (error) {
           console.error("SUPABASE ERROR:", error);
-          connectionStatus.className = "status error";
-          connectionStatus.textContent = `Error de Supabase: ${error.message}`;
+          statusBox.textContent = "Error de Supabase: " + error.message;
           return;
         }
 
-        console.log("DATA FROM SUPABASE:", data);
+        console.log("SUPABASE DATA:", data);
 
-        allBusinesses = data || [];
+        statusBox.textContent = "Conexión exitosa. Filas recibidas: " + (data ? data.length : 0);
 
-        connectionStatus.className = "status ok";
-        connectionStatus.textContent = "Conexión con Supabase exitosa.";
+        if (!data || data.length === 0) {
+          profiles.innerHTML = '<div class="empty">La tabla respondió, pero no hay filas.</div>';
+          return;
+        }
 
-        renderProfiles();
+        profiles.innerHTML = data.map(b => `
+          <article class="card">
+            <div class="row">
+              <img class="logo" src="${safe(b.logo, "")}" alt="logo" onerror="this.style.display='none'">
+              <div>
+                <h2>${safe(b.name, "SIN NAME")}</h2>
+                <p class="muted">${safe(b.tagline, "SIN TAGLINE")}</p>
+                <p>📍 ${safe(b.address, "SIN ADDRESS")}</p>
+                <p>🕒 ${safe(b.hours, "SIN HOURS")}</p>
+                <p>📞 ${safe(b.phone, "SIN PHONE")}</p>
+                <p>source: ${safe(b.source, "SIN SOURCE")}</p>
+                <p>isclient: ${String(b.isclient)}</p>
+                <p>publish: ${canPublish(b) ? "YES" : "NO"}</p>
+              </div>
+            </div>
+            <div class="debug">${JSON.stringify(b, null, 2)}</div>
+          </article>
+        `).join("");
       } catch (err) {
         console.error("UNEXPECTED ERROR:", err);
-        connectionStatus.className = "status error";
-        connectionStatus.textContent = `Error inesperado: ${err.message}`;
+        statusBox.textContent = "Error inesperado: " + err.message;
       }
     }
-
-    document.getElementById("searchInput").addEventListener("input", renderProfiles);
 
     loadProfiles();
   </script>
