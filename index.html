@@ -81,7 +81,7 @@ async function loadProfiles(){
     return;
   }
 
-  const valid = data;
+  const valid = data.filter(canPublish);
 
   if(valid.length === 0){
     document.getElementById("profiles").innerHTML = "No hay perfiles aún";
