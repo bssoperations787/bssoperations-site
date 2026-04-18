@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BSS Admin Generator</title>
+  <style>
+    :root{
+      --bg:#0f172a;--card:#1e293b;--line:rgba(255,255,255,.12);--text:#fff;--muted:#cbd5e1;
+      --accent:#38bdf8;--accent2:#22c55e;--danger:#ef4444;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#0f172a,#020617);color:var(--text)}
+    .wrap{width:min(calc(100% - 32px),1200px);margin:0 auto;padding:24px 0 40px}
+    .hero,.card{background:rgba(17,24,39,.92);border:1px solid var(--line);border-radius:22px}
+    .hero{padding:24px;margin-bottom:20px}
+    .hero h1{margin:0 0 10px;font-size:2rem}
+    .hero p,.muted,.checklist{color:var(--muted);line-height:1.7}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .card{padding:20px}
+    .card h2{margin:0 0 14px;font-size:1.25rem}
+    .fields{display:grid;gap:12px}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    label{display:block;font-size:.9rem;color:#dbeafe;margin-bottom:6px}
+    input,textarea,select{width:100%;border:none;border-radius:14px;padding:14px;background:#0f172a;color:white;border:1px solid rgba(255,255,255,.08);font-size:1rem}
+    textarea{min-height:100px;resize:vertical}
+    .btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+    button,.download{min-height:46px;padding:0 16px;border:none;border-radius:14px;background:var(--accent);color:#082f49;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+    .secondary{background:#334155;color:white}
+    .green{background:var(--accent2);color:#052e16}
+    .danger{background:var(--danger);color:white}
+    .output{background:#020617;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px;white-space:pre-wrap;overflow:auto;min-height:180px;font-family:Consolas,monospace;font-size:.92rem;color:#e2e8f0}
+    .checklist{margin:12px 0 0;padding-left:18px}
+    .preview{background:#fff;color:#0f172a;border-radius:18px;padding:18px;min-height:160px}
+    .preview h3{margin-top:0}
+    .tag{display:inline-block;padding:8px 12px;border-radius:999px;background:#e0f2fe;color:#075985;margin-right:8px;margin-bottom:8px;font-size:.9rem;font-weight:700}
+    .small{color:#94a3b8;font-size:.88rem;margin-top:10px}
+    @media (max-width:900px){.grid,.two{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>BSS Admin Generator</h1>
+      <p>Esta página privada te ayuda a crear nuevos perfiles sin escribir código a mano. Genera el bloque para <strong>data.js</strong> y también el archivo HTML del perfil individual.</p>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Datos del negocio</h2>
+        <div class="fields">
+          <div><label>Nombre del negocio</label><input id="name" placeholder="Big Bang Mini Market & Sport Bar" /></div>
+          <div class="two">
+            <div><label>Categoría</label><input id="category" placeholder="Mini Market & Sport Bar" /></div>
+            <div><label>Ciudad</label><input id="city" placeholder="Ponce, PR" /></div>
+          </div>
+          <div><label>Dirección física</label><input id="address" placeholder="123 Calle Principal, Ponce, PR" /></div>
+          <div class="two">
+            <div><label>Horario</label><input id="hours" placeholder="Lunes a Domingo · 8:00 AM - 11:00 PM" /></div>
+            <div><label>Teléfono</label><input id="phone" placeholder="(787) 555-0101" /></div>
+          </div>
+          <div class="two">
+            <div><label>WhatsApp (solo números)</label><input id="whatsapp" placeholder="17875550101" /></div>
+            <div><label>Website o red principal</label><input id="website" placeholder="https://instagram.com/negocio" /></div>
+          </div>
+          <div><label>URL del logo</label><input id="logo" placeholder="https://..." /></div>
+          <div><label>Tagline corta</label><input id="tagline" placeholder="Compras rápidas, ambiente social y entretenimiento deportivo." /></div>
+          <div><label>Descripción</label><textarea id="bio" placeholder="Describe el negocio aquí."></textarea></div>
+          <div class="two">
+            <div><label>Highlight 1</label><input id="featured1" placeholder="Mini Market" /></div>
+            <div><label>Highlight 2</label><input id="featured2" placeholder="Sport Bar" /></div>
+          </div>
+          <div><label>Highlight 3</label><input id="featured3" placeholder="Ambiente Social" /></div>
+          <div class="two">
+            <div><label>Source</label><select id="source"><option value="honeybook">honeybook</option><option value="manual">manual</option></select></div>
+            <div><label>Cliente activo</label><select id="isClient"><option value="true">true</option><option value="false">false</option></select></div>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button onclick="generateAll()">Generar</button>
+          <button class="secondary" onclick="fillDemo()">Cargar demo</button>
+          <button class="danger" onclick="clearForm()">Limpiar</button>
+        </div>
+        <ul class="checklist">
+          <li>Si falta logo, nombre, dirección o horario, el perfil no se publicará.</li>
+          <li>Si <strong>source</strong> no es <strong>honeybook</strong>, no se publicará.</li>
+          <li>Si <strong>isClient</strong> no es <strong>true</strong>, no se publicará.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>Vista rápida</h2>
+        <div class="preview" id="previewBox">
+          <h3>Negocio listo para vista previa</h3>
+          <p class="muted">Completa el formulario y presiona <strong>Generar</strong>.</p>
+        </div>
+        <p class="small">Esto no publica automáticamente todavía. Genera el material listo para pegar y subir sin cometer errores.</p>
+      </section>
+
+      <section class="card">
+        <h2>Bloque para data.js</h2>
+        <div class="btn-row"><button class="secondary" onclick="copyDataBlock()">Copiar bloque</button></div>
+        <div class="output" id="dataOutput"></div>
+      </section>
+
+      <section class="card">
+        <h2>Archivo del perfil individual</h2>
+        <div class="btn-row">
+          <button class="secondary" onclick="copyProfileHtml()">Copiar HTML</button>
+          <a id="downloadProfile" class="download green" href="#" download="perfil.html">Descargar perfil</a>
+        </div>
+        <div class="output" id="profileOutput"></div>
+      </section>
+    </div>
+  </div>
+
+<script>
+let currentDataBlock = "";
+let currentProfileHtml = "";
+let currentSlug = "perfil";
+
+function slugify(text) {
+  return text.toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+function esc(str) { return (str || "").replace(/`/g, "\\`").replace(/"/g, '\"'); }
+function getValue(id) { return document.getElementById(id).value.trim(); }
+
+function fillDemo() {
+  document.getElementById("name").value = "Big Bang Mini Market & Sport Bar";
+  document.getElementById("category").value = "Mini Market & Sport Bar";
+  document.getElementById("city").value = "Ponce, PR";
+  document.getElementById("address").value = "123 Calle Principal, Ponce, PR";
+  document.getElementById("hours").value = "Lunes a Domingo · 8:00 AM - 11:00 PM";
+  document.getElementById("phone").value = "(787) 555-0101";
+  document.getElementById("whatsapp").value = "17875550101";
+  document.getElementById("website").value = "https://instagram.com/bigbangdemo";
+  document.getElementById("logo").value = "https://dummyimage.com/140x140/ffffff/0f172a.png&text=BB";
+  document.getElementById("tagline").value = "Compras rápidas, ambiente social y entretenimiento deportivo.";
+  document.getElementById("bio").value = "Big Bang Mini Market & Sport Bar combina conveniencia y entretenimiento en un solo lugar, ofreciendo una presencia comercial clara dentro de la red BSS.";
+  document.getElementById("featured1").value = "Mini Market";
+  document.getElementById("featured2").value = "Sport Bar";
+  document.getElementById("featured3").value = "Ambiente Social";
+  document.getElementById("source").value = "honeybook";
+  document.getElementById("isClient").value = "true";
+  generateAll();
+}
+
+function clearForm() {
+  document.querySelectorAll("input, textarea").forEach(el => el.value = "");
+  document.getElementById("source").value = "honeybook";
+  document.getElementById("isClient").value = "true";
+  document.getElementById("dataOutput").textContent = "";
+  document.getElementById("profileOutput").textContent = "";
+  document.getElementById("previewBox").innerHTML = "<h3>Negocio listo para vista previa</h3><p class='muted'>Completa el formulario y presiona <strong>Generar</strong>.</p>";
+  currentDataBlock = "";
+  currentProfileHtml = "";
+}
+
+function generateAll() {
+  const business = {
+    name: getValue("name"),
+    category: getValue("category"),
+    city: getValue("city"),
+    address: getValue("address"),
+    hours: getValue("hours"),
+    phone: getValue("phone"),
+    whatsapp: getValue("whatsapp"),
+    website: getValue("website"),
+    logo: getValue("logo"),
+    tagline: getValue("tagline"),
+    bio: getValue("bio"),
+    featured: [getValue("featured1"), getValue("featured2"), getValue("featured3")].filter(Boolean),
+    source: getValue("source"),
+    isClient: getValue("isClient") === "true"
+  };
+
+  currentSlug = slugify(business.name || "perfil");
+  const profileFile = currentSlug + ".html";
+  const publishReady = Boolean(business.source === "honeybook" && business.isClient === true && business.logo && business.name && business.address && business.hours);
+
+  currentDataBlock = `{
+  id: Date.now(),
+  name: "${esc(business.name)}",
+  category: "${esc(business.category)}",
+  city: "${esc(business.city)}",
+  address: "${esc(business.address)}",
+  hours: "${esc(business.hours)}",
+  phone: "${esc(business.phone)}",
+  website: "${esc(business.website)}",
+  tagline: "${esc(business.tagline)}",
+  bio: "${esc(business.bio)}",
+  logo: "${esc(business.logo)}",
+  profileUrl: "${profileFile}",
+  featured: ${JSON.stringify(business.featured)},
+  source: "${esc(business.source)}",
+  isClient: ${business.isClient}
+},`;
+
+  currentProfileHtml = generateProfileHtml(business);
+
+  document.getElementById("dataOutput").textContent = currentDataBlock;
+  document.getElementById("profileOutput").textContent = currentProfileHtml;
+
+  const blob = new Blob([currentProfileHtml], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  const downloadBtn = document.getElementById("downloadProfile");
+  downloadBtn.href = url;
+  downloadBtn.download = profileFile;
+  downloadBtn.textContent = "Descargar " + profileFile;
+
+  document.getElementById("previewBox").innerHTML = `
+    <h3>${business.name || "Sin nombre"}</h3>
+    <p><strong>Categoría:</strong> ${business.category || "—"}</p>
+    <p><strong>Ciudad:</strong> ${business.city || "—"}</p>
+    <p><strong>Dirección:</strong> ${business.address || "—"}</p>
+    <p><strong>Horario:</strong> ${business.hours || "—"}</p>
+    <p><strong>Publicación:</strong> ${publishReady ? "✅ Listo para publicarse" : "❌ Aún no cumple requisitos"}</p>
+    <div>${(business.featured || []).map(item => `<span class="tag">${item}</span>`).join("")}</div>
+  `;
+}
+
+function generateProfileHtml(business) {
+  const whatsappUrl = business.whatsapp ? "https://wa.me/" + business.whatsapp : "#";
+  return `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${esc(business.name)} | BSS</title>
+  <style>
+    body{margin:0;font-family:Arial, Helvetica, sans-serif;background:#0f172a;color:white;}
+    .hero{padding:60px 20px;text-align:center;background:linear-gradient(135deg,#1e293b,#020617);}
+    .hero img{width:100px;height:100px;border-radius:22px;object-fit:cover;margin-bottom:18px;background:white;}
+    h1{font-size:3em;margin-bottom:10px;}
+    .subtitle{color:#cbd5e1;font-size:1.1em;max-width:780px;margin:0 auto;}
+    .section{padding:40px 20px;max-width:900px;margin:auto;}
+    .card{background:#1e293b;padding:25px;border-radius:15px;margin-bottom:20px;}
+    h2{margin-top:0;}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;}
+    .chip{padding:10px 14px;border-radius:999px;background:#0f172a;color:#dbeafe;font-weight:bold;}
+    .btn{display:inline-block;padding:15px 25px;border-radius:10px;background:#38bdf8;color:#082f49;font-weight:bold;text-decoration:none;margin-top:15px;}
+    .back{display:block;margin:20px;color:#93c5fd;text-decoration:none;}
+  </style>
+</head>
+<body>
+<a class="back" href="index.html">← Volver</a>
+<div class="hero">
+  <img src="${esc(business.logo)}" alt="Logo de ${esc(business.name)}">
+  <h1>${esc(business.name)}</h1>
+  <p class="subtitle">${esc(business.tagline)}</p>
+</div>
+<div class="section">
+  <div class="card">
+    <h2>Sobre el negocio</h2>
+    <p>${esc(business.bio)}</p>
+    <div class="chips">${business.featured.map(item => `<span class="chip">${esc(item)}</span>`).join("")}</div>
+  </div>
+  <div class="card">
+    <h2>Información</h2>
+    <p>📍 Dirección: ${esc(business.address)}</p>
+    <p>📞 Teléfono: ${esc(business.phone)}</p>
+    <p>🕒 Horario: ${esc(business.hours)}</p>
+    <p>🌐 Redes / Web: ${esc(business.website || "Próximamente")}</p>
+    <p>🏙 Ciudad: ${esc(business.city)}</p>
+  </div>
+  <a class="btn" href="${whatsappUrl}" target="_blank">Contactar por WhatsApp</a>
+</div>
+</body>
+</html>`;
+}
+
+async function copyDataBlock() {
+  if (!currentDataBlock) return;
+  await navigator.clipboard.writeText(currentDataBlock);
+  alert("Bloque de data.js copiado.");
+}
+async function copyProfileHtml() {
+  if (!currentProfileHtml) return;
+  await navigator.clipboard.writeText(currentProfileHtml);
+  alert("HTML del perfil copiado.");
+}
+</script>
+</body>
+</html>
