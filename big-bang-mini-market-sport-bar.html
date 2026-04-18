@@ -1,297 +1,117 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Big Bang Mini Market & Sport Bar | BSS Profiles</title>
-  <meta name="description" content="Perfil público de Big Bang Mini Market & Sport Bar en BSS Operations." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Big Bang Mini Market & Sport Bar | BSS</title>
+
   <style>
-    :root{
-      --bg:#0f172a;
-      --bg2:#1e293b;
-      --card:#111827;
-      --text:#ffffff;
-      --muted:#cbd5e1;
-      --accent:#f59e0b;
-      --accent2:#38bdf8;
-      --line:rgba(255,255,255,0.12);
-      --shadow:0 18px 40px rgba(0,0,0,.28);
-      --max:1100px;
-    }
-
-    *{box-sizing:border-box}
-
     body{
       margin:0;
       font-family:Arial, Helvetica, sans-serif;
-      background:linear-gradient(180deg, var(--bg), #020617);
-      color:var(--text);
-    }
-
-    .wrap{
-      width:min(calc(100% - 32px), var(--max));
-      margin:0 auto;
+      background:#0f172a;
+      color:white;
     }
 
     .hero{
-      min-height:420px;
-      display:flex;
-      align-items:center;
-      background:
-        linear-gradient(rgba(2,6,23,.55), rgba(2,6,23,.75)),
-        url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
-      border-bottom:1px solid var(--line);
-    }
-
-    .hero-box{
-      padding:60px 0;
-    }
-
-    .badge{
-      display:inline-block;
-      padding:8px 14px;
-      border-radius:999px;
-      background:rgba(245,158,11,.15);
-      border:1px solid rgba(245,158,11,.35);
-      color:#fde68a;
-      font-size:.9rem;
-      font-weight:700;
-      margin-bottom:18px;
+      padding:60px 20px;
+      text-align:center;
+      background:linear-gradient(135deg,#1e293b,#020617);
     }
 
     h1{
-      margin:0 0 14px;
-      font-size:clamp(2.3rem, 5vw, 4.2rem);
-      line-height:1.05;
+      font-size:3em;
+      margin-bottom:10px;
     }
 
     .subtitle{
-      margin:0;
-      color:var(--muted);
-      font-size:1.1rem;
-      line-height:1.7;
-      max-width:760px;
-    }
-
-    .cta-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      margin-top:28px;
-    }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-height:48px;
-      padding:0 18px;
-      border-radius:14px;
-      text-decoration:none;
-      font-weight:700;
-      transition:.2s ease;
-    }
-
-    .btn-primary{
-      background:var(--accent);
-      color:#111827;
-    }
-
-    .btn-primary:hover{
-      filter:brightness(1.05);
-    }
-
-    .btn-secondary{
-      background:rgba(255,255,255,.08);
-      color:white;
-      border:1px solid var(--line);
-    }
-
-    .btn-secondary:hover{
-      background:rgba(255,255,255,.14);
+      color:#cbd5e1;
+      font-size:1.1em;
     }
 
     .section{
-      padding:28px 0;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:1.2fr .8fr;
-      gap:20px;
+      padding:40px 20px;
+      max-width:900px;
+      margin:auto;
     }
 
     .card{
-      background:rgba(17,24,39,.88);
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:24px;
-      box-shadow:var(--shadow);
+      background:#1e293b;
+      padding:25px;
+      border-radius:15px;
+      margin-bottom:20px;
     }
 
-    .card h2{
-      margin:0 0 12px;
-      font-size:1.5rem;
+    h2{
+      margin-top:0;
     }
 
-    .card p{
-      margin:0;
-      color:var(--muted);
-      line-height:1.8;
-    }
-
-    .highlights{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:14px;
-      margin-top:18px;
-    }
-
-    .pill{
-      background:rgba(56,189,248,.10);
-      border:1px solid rgba(56,189,248,.25);
-      border-radius:18px;
-      padding:14px;
-      text-align:center;
-      color:#e0f2fe;
-      font-weight:700;
-    }
-
-    .info-list{
-      display:grid;
-      gap:12px;
-    }
-
-    .info-item{
-      background:rgba(255,255,255,.04);
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:14px;
-    }
-
-    .info-label{
-      font-size:.82rem;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-      color:#94a3b8;
-      margin-bottom:6px;
-    }
-
-    .promo-box{
-      margin-top:18px;
-      background:linear-gradient(135deg, rgba(245,158,11,.18), rgba(56,189,248,.10));
-      border:1px solid rgba(245,158,11,.25);
-      border-radius:20px;
-      padding:18px;
-    }
-
-    .promo-box strong{
-      display:block;
-      margin-bottom:8px;
-      font-size:1.05rem;
-    }
-
-    .back-link{
+    .btn{
       display:inline-block;
-      margin:8px 0 28px;
+      padding:15px 25px;
+      border-radius:10px;
+      background:#38bdf8;
+      color:#082f49;
+      font-weight:bold;
+      text-decoration:none;
+      margin-top:15px;
+    }
+
+    .back{
+      display:block;
+      margin:20px;
       color:#93c5fd;
       text-decoration:none;
-      font-weight:700;
     }
 
-    footer{
-      padding:10px 0 36px;
-      text-align:center;
-      color:#94a3b8;
-      font-size:.95rem;
-    }
-
-    @media (max-width: 900px){
-      .grid{
-        grid-template-columns:1fr;
-      }
-
-      .highlights{
-        grid-template-columns:1fr;
-      }
-    }
   </style>
 </head>
+
 <body>
 
-  <header class="hero">
-    <div class="wrap hero-box">
-      <div class="badge">Perfil Público BSS</div>
-      <h1>Big Bang Mini Market & Sport Bar</h1>
-      <p class="subtitle">
-        Tu punto ideal para compras rápidas, buen ambiente y entretenimiento deportivo.
-        Un espacio pensado para clientes que buscan conveniencia, servicio y experiencia.
-      </p>
+<a class="back" href="index.html">← Volver</a>
 
-      <div class="cta-row">
-        <a class="btn btn-primary" href="https://wa.me/10000000000" target="_blank" rel="noopener noreferrer">Hablar por WhatsApp</a>
-        <a class="btn btn-secondary" href="#contacto">Ver contacto</a>
-      </div>
-    </div>
-  </header>
+<div class="hero">
+  <h1>Big Bang Mini Market & Sport Bar</h1>
+  <p class="subtitle">
+    Compras rápidas, ambiente social y entretenimiento deportivo en un solo lugar.
+  </p>
+</div>
 
-  <main class="wrap">
-    <section class="section">
-      <a class="back-link" href="index.html">← Volver a perfiles</a>
+<div class="section">
 
-      <div class="grid">
-        <div class="card">
-          <h2>Sobre el negocio</h2>
-          <p>
-            Big Bang Mini Market & Sport Bar combina conveniencia y entretenimiento en un solo lugar.
-            Aquí los visitantes pueden encontrar un ambiente accesible, productos esenciales y una
-            experiencia más dinámica para compartir con amigos y clientes.
-          </p>
+  <div class="card">
+    <h2>Sobre el negocio</h2>
+    <p>
+      Big Bang Mini Market & Sport Bar ofrece una combinación de conveniencia y entretenimiento,
+      brindando un espacio ideal para clientes que buscan productos esenciales y un ambiente dinámico
+      para compartir.
+    </p>
+  </div>
 
-          <div class="highlights">
-            <div class="pill">Mini Market</div>
-            <div class="pill">Sport Bar</div>
-            <div class="pill">Ambiente Social</div>
-          </div>
+  <div class="card">
+    <h2>Información</h2>
 
-          <div class="promo-box">
-            <strong>Promoción destacada</strong>
-            Visítanos y conoce nuestras ofertas especiales, productos disponibles y ambiente ideal para disfrutar eventos deportivos.
-          </div>
-        </div>
+    <!-- EDITA ESTA PARTE -->
+    <p>📍 Dirección: Calle Cruz 46 Km 2.0, Parcelas Maguayo Lajas PR 00667</p>
+    <p>📞 Teléfono: 787-397-0875</p>
+    <p>🕒 Horario: 7 días 11AM - 11PML</p>
+    <p>🌐 Redes / Web: OPCIONAL</p>
 
-        <div class="card" id="contacto">
-          <h2>Información visible</h2>
+  </div>
 
-          <div class="info-list">
-            <div class="info-item">
-              <div class="info-label">Ubicación</div>
-              <div>Pendiente por actualizar</div>
-            </div>
+  <div class="card">
+    <h2>Promoción</h2>
+    <p>
+      Consulta en tienda las promociones disponibles y eventos deportivos en pantalla.
+    </p>
+  </div>
 
-            <div class="info-item">
-              <div class="info-label">Teléfono</div>
-              <div>Pendiente por actualizar</div>
-            </div>
+  <a class="btn" href="https://wa.me/+17873970875" target="_blank">
+    Contactar por WhatsApp
+  </a>
 
-            <div class="info-item">
-              <div class="info-label">Horario</div>
-              <div>Pendiente por actualizar</div>
-            </div>
-
-            <div class="info-item">
-              <div class="info-label">Redes o web</div>
-              <div>Pendiente por actualizar</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    © 2026 BSS Operations. Todos los derechos reservados.
-  </footer>
+</div>
 
 </body>
 </html>
