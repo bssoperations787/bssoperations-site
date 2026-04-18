@@ -1,94 +1,490 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BSS Public Profiles</title>
-
-<style>
-body {
-    margin:0;
-    font-family:Arial;
-    background:#0f172a;
-    color:white;
-}
-
-.container {
-    width:90%;
-    max-width:1100px;
-    margin:auto;
-}
-
-.hero {
-    padding:60px 20px;
-    text-align:center;
-    background:linear-gradient(135deg,#1e293b,#020617);
-}
-
-h1 {
-    font-size:2.8em;
-}
-
-.search {
-    padding:20px;
-    text-align:center;
-}
-
-.search input {
-    width:80%;
-    padding:15px;
-    border-radius:10px;
-    border:none;
-}
-
-.card {
-    background:#1e293b;
-    padding:20px;
-    margin:20px 0;
-    border-radius:15px;
-}
-
-button {
-    padding:12px 20px;
-    border:none;
-    border-radius:10px;
-    background:#38bdf8;
-    cursor:pointer;
-    margin-top:10px;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BSS Business Profiles</title>
+  <meta name="description" content="Perfiles seleccionados de negocios dentro de BSS Operations." />
+  <style>
+    :root{
+      --bg:#f8fafc;
+      --card:#ffffff;
+      --dark:#0f172a;
+      --muted:#64748b;
+      --line:#e2e8f0;
+      --accent:#2563eb;
+      --accent2:#0ea5e9;
+      --shadow:0 18px 45px rgba(15,23,42,.08);
+      --max:1220px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--dark);
+      background:linear-gradient(180deg,#f8fafc 0%,#eff6ff 100%);
+    }
+    .wrap{width:min(calc(100% - 32px), var(--max));margin:0 auto}
+    header{padding:28px 0 18px}
+    .hero{
+      overflow:hidden;
+      border-radius:36px;
+      background:
+        radial-gradient(circle at top right, rgba(14,165,233,.18), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(37,99,235,.18), transparent 32%),
+        linear-gradient(135deg,#020617 0%,#0f172a 48%,#172554 100%);
+      color:white;
+      box-shadow:var(--shadow);
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:28px;
+      padding:42px;
+    }
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border-radius:999px;
+      padding:9px 14px;
+      background:rgba(56,189,248,.14);
+      border:1px solid rgba(56,189,248,.24);
+      color:#d7f3ff;
+      font-size:.92rem;
+      font-weight:700;
+      margin-bottom:16px;
+    }
+    h1{margin:0 0 14px;font-size:clamp(2.1rem,4vw,4rem);line-height:1.05}
+    .lead{
+      color:#cbd5e1;
+      font-size:1.05rem;
+      line-height:1.75;
+      max-width:760px;
+      margin:0 0 22px;
+    }
+    .hero-buttons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:18px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:48px;
+      padding:0 18px;
+      border-radius:14px;
+      text-decoration:none;
+      font-weight:700;
+      transition:.2s ease;
+      border:1px solid transparent;
+    }
+    .btn-primary{background:white;color:#0f172a}
+    .btn-secondary{
+      background:rgba(255,255,255,.08);
+      color:white;
+      border-color:rgba(255,255,255,.12);
+    }
+    .hero-side{
+      display:grid;
+      gap:14px;
+      align-content:start;
+    }
+    .hero-box{
+      border-radius:24px;
+      padding:18px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.1);
+      backdrop-filter:blur(10px);
+    }
+    .hero-box strong{display:block;margin-bottom:6px;font-size:1.05rem}
+    main{padding:18px 0 48px}
+    .toolbar{
+      display:grid;
+      grid-template-columns:1.3fr .9fr;
+      gap:16px;
+      margin:0 0 20px;
+    }
+    .search-card,.invite-card,.profile-card,.side-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:26px;
+      box-shadow:var(--shadow);
+    }
+    .search-card,.invite-card{padding:16px}
+    .search-input{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px 16px;
+      color:var(--muted);
+    }
+    .search-input input{
+      width:100%;
+      border:none;
+      outline:none;
+      font-size:1rem;
+      background:transparent;
+    }
+    .invite-card{color:#334155;line-height:1.7}
+    .content{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:20px;
+    }
+    .profiles{display:grid;gap:18px}
+    .profile-card{padding:20px;overflow:hidden}
+    .theme-banner{
+      border-radius:28px;
+      padding:22px;
+      color:white;
+      background:linear-gradient(135deg,#0284c7,#2563eb 58%,#4338ca);
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:.82rem;
+      font-weight:700;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.12);
+      margin-bottom:12px;
+    }
+    .profile-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:10px;
+    }
+    .profile-main{display:flex;align-items:center;gap:16px}
+    .logo{
+      width:72px;
+      height:72px;
+      object-fit:cover;
+      border-radius:18px;
+      background:rgba(255,255,255,.16);
+      border:1px solid rgba(255,255,255,.18);
+      flex-shrink:0;
+    }
+    .profile-title h2{margin:0;font-size:1.8rem}
+    .tagline{margin:8px 0 0;opacity:.95;line-height:1.6}
+    .chip-row{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin-top:18px;
+    }
+    .chip{
+      border-radius:18px;
+      padding:12px 14px;
+      background:rgba(255,255,255,.12);
+      backdrop-filter:blur(8px);
+      font-size:.94rem;
+    }
+    .banner-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
+    }
+    .banner-actions a{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:44px;
+      padding:0 16px;
+      border-radius:14px;
+      text-decoration:none;
+      font-weight:700;
+    }
+    .action-white{background:white;color:#0f172a}
+    .action-clear{
+      background:rgba(255,255,255,.08);
+      color:white;
+      border:1px solid rgba(255,255,255,.14);
+    }
+    .profile-bottom{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:14px;
+      margin-top:16px;
+    }
+    .inner-box{
+      background:#f8fafc;
+      border-radius:20px;
+      padding:16px;
+    }
+    .inner-label{
+      color:#94a3b8;
+      font-size:.78rem;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      margin-bottom:8px;
+    }
+    .inner-box p{margin:0;color:#475569;line-height:1.7}
+    .info-list{display:grid;gap:10px;color:#334155;font-size:.95rem}
+    .side-stack{display:grid;gap:18px}
+    .side-card{padding:22px}
+    .side-card h3{margin:0 0 12px;font-size:1.35rem}
+    .side-card p{margin:0;color:var(--muted);line-height:1.7}
+    .step{
+      margin-top:14px;
+      padding:14px;
+      background:#f8fafc;
+      border-radius:18px;
+      color:#334155;
+      line-height:1.6;
+    }
+    .dark-side{
+      background:linear-gradient(160deg,#020617,#0f172a 58%,#1e1b4b);
+      color:white;
+      border:none;
+    }
+    .dark-side p,.dark-side li{color:#cbd5e1}
+    .dark-side ul{margin:14px 0 0;padding-left:18px;line-height:1.8}
+    .empty{
+      padding:28px;
+      text-align:center;
+      border:2px dashed #cbd5e1;
+      border-radius:26px;
+      background:white;
+      color:#334155;
+      box-shadow:var(--shadow);
+    }
+    footer{text-align:center;color:#64748b;padding:0 0 36px;font-size:.95rem}
+    @media (max-width:980px){
+      .hero-grid,.content,.profile-bottom{grid-template-columns:1fr}
+      .toolbar{grid-template-columns:1fr}
+    }
+    @media (max-width:700px){
+      .hero-grid{padding:26px}
+      .chip-row{grid-template-columns:1fr}
+      .profile-title{flex-direction:column;align-items:flex-start}
+      .profile-main{align-items:flex-start}
+    }
+  </style>
 </head>
-
 <body>
+  <header class="wrap">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">BSS Business Profiles</div>
+          <h1>Perfiles seleccionados de negocios dentro de BSS Operations</h1>
+          <p class="lead">
+            Descubre algunos de los negocios que ya forman parte de nuestra red. Cada perfil
+            presenta información esencial, presencia comercial y una experiencia profesional
+            pensada para fortalecer su visibilidad.
+          </p>
+          <div class="hero-buttons">
+            <a class="btn btn-primary" href="#profiles">Ver perfiles</a>
+            <a class="btn btn-secondary" href="mailto:info@bssoperations.com?subject=Solicitud%20de%20invitaci%C3%B3n">Solicitar invitación</a>
+          </div>
+        </div>
+        <div class="hero-side">
+          <div class="hero-box">
+            <strong>Presencia profesional</strong>
+            Cada negocio cuenta con un espacio pensado para proyectar confianza y claridad.
+          </div>
+          <div class="hero-box">
+            <strong>Acceso por invitación</strong>
+            La incorporación de nuevos perfiles está disponible únicamente por invitación.
+          </div>
+          <div class="hero-box">
+            <strong>Clientes activos</strong>
+            Los espacios visibles representan negocios que ya están integrados a la red BSS.
+          </div>
+        </div>
+      </div>
+    </section>
+  </header>
 
-<div class="hero">
-    <h1>BSS Business Profiles</h1>
-    <p>Plataforma donde los negocios promocionan su espacio público</p>
-</div>
+  <main class="wrap">
+    <section class="toolbar">
+      <div class="search-card">
+        <div class="search-input">
+          🔎
+          <input id="searchInput" type="text" placeholder="Buscar negocio, ciudad o categoría..." />
+        </div>
+      </div>
+      <div class="invite-card">
+        <strong>¿Interesado en unirte?</strong><br>
+        El acceso para negocios que aún no forman parte del sistema se maneja exclusivamente mediante invitación.
+      </div>
+    </section>
 
-<div class="search">
-    <input type="text" placeholder="Buscar negocio...">
-</div>
+    <section class="content" id="profiles">
+      <div>
+        <div class="profiles" id="profilesContainer"></div>
+        <div class="empty" id="emptyState" style="display:none;">
+          <h2 style="margin-top:0;">No se encontraron perfiles</h2>
+          <p>Intenta con otro nombre, ciudad o categoría.</p>
+        </div>
+      </div>
 
-<div class="container">
+      <aside class="side-stack">
+        <section class="side-card">
+          <h3>Cómo funciona</h3>
+          <p>
+            BSS Operations mantiene una red curada de perfiles comerciales con presencia visual clara
+            y acceso controlado para nuevos participantes.
+          </p>
+          <div class="step"><strong>1.</strong> El negocio se integra al sistema.</div>
+          <div class="step"><strong>2.</strong> Se prepara su perfil profesional.</div>
+          <div class="step"><strong>3.</strong> Su espacio pasa a formar parte de la red visible.</div>
+        </section>
 
-    <!-- NEGOCIO 1 -->
-    <div class="card">
-        <h2>Big Bang Mini Market & Sport Bar</h2>
-        <p>Mini Market + Sport Bar con ambiente social y promociones.</p>
+        <section class="side-card dark-side">
+          <h3>Unirse a la red</h3>
+          <p>
+            La publicación de nuevos perfiles se gestiona de forma privada. Negocios que aún no son
+            clientes activos deben ingresar mediante invitación.
+          </p>
+          <ul>
+            <li>Acceso controlado</li>
+            <li>Integración profesional</li>
+            <li>Perfiles seleccionados</li>
+            <li>Soporte organizado desde BSS</li>
+          </ul>
+        </section>
+      </aside>
+    </section>
+  </main>
 
-        <button onclick="window.location.href='big-bang-mini-market-sport-bar.html'">
-            Ver espacio
-        </button>
-    </div>
+  <footer class="wrap">
+    © 2026 BSS Operations. Todos los derechos reservados.
+  </footer>
 
-    <!-- FUTUROS NEGOCIOS -->
-    <div class="card">
-        <h2>Próximamente</h2>
-        <p>Aquí aparecerán más negocios.</p>
-    </div>
+  <script>
+    const businesses = [
+      {
+        id: 1,
+        name: "Big Bang Mini Market & Sport Bar",
+        category: "Mini Market & Sport Bar",
+        city: "Ponce, PR",
+        address: "Ponce, Puerto Rico",
+        hours: "Lunes a Domingo · 8:00 AM - 11:00 PM",
+        phone: "(787) 555-0101",
+        website: "Próximamente",
+        tagline: "Compras rápidas, ambiente social y entretenimiento deportivo.",
+        bio: "Big Bang Mini Market & Sport Bar combina conveniencia y entretenimiento en un solo lugar, ofreciendo una presencia comercial clara dentro de la red BSS.",
+        logo: "https://dummyimage.com/140x140/ffffff/0f172a.png&text=BB",
+        profileUrl: "big-bang-mini-market-sport-bar.html",
+        featured: ["Mini Market", "Sport Bar", "Ambiente Social"],
+        source: "honeybook",
+        isClient: true
+      },
+      {
+        id: 2,
+        name: "Perfil no publicado",
+        category: "Retail",
+        city: "Mayagüez, PR",
+        address: "",
+        hours: "",
+        phone: "(787) 555-9999",
+        website: "Próximamente",
+        tagline: "Este perfil no debe salir.",
+        bio: "Perfil interno.",
+        logo: "",
+        profileUrl: "#",
+        featured: ["Pendiente", "Pendiente", "Pendiente"],
+        source: "manual",
+        isClient: false
+      }
+    ];
 
-</div>
+    function canPublish(business) {
+      return Boolean(
+        business.source === "honeybook" &&
+        business.isClient === true &&
+        business.logo &&
+        business.name &&
+        business.address &&
+        business.hours
+      );
+    }
 
+    const searchInput = document.getElementById("searchInput");
+    const profilesContainer = document.getElementById("profilesContainer");
+    const emptyState = document.getElementById("emptyState");
+
+    function renderProfiles() {
+      const query = searchInput.value.trim().toLowerCase();
+      const publishedBusinesses = businesses.filter(canPublish);
+
+      const filteredBusinesses = publishedBusinesses.filter((business) => {
+        const haystack = [
+          business.name,
+          business.category,
+          business.city,
+          business.tagline,
+          business.bio
+        ].join(" ").toLowerCase();
+        return haystack.includes(query);
+      });
+
+      if (filteredBusinesses.length === 0) {
+        profilesContainer.innerHTML = "";
+        emptyState.style.display = "block";
+        return;
+      }
+
+      emptyState.style.display = "none";
+
+      profilesContainer.innerHTML = filteredBusinesses.map((business) => `
+        <article class="profile-card">
+          <div class="theme-banner">
+            <div class="badge">Perfil activo</div>
+            <div class="profile-title">
+              <div class="profile-main">
+                <img class="logo" src="${business.logo}" alt="Logo de ${business.name}">
+                <div>
+                  <h2>${business.name}</h2>
+                  <p class="tagline">${business.tagline}</p>
+                </div>
+              </div>
+              <div>${business.category}</div>
+            </div>
+
+            <div class="chip-row">
+              ${business.featured.map(item => `<div class="chip">${item}</div>`).join("")}
+            </div>
+
+            <div class="banner-actions">
+              <a class="action-white" href="${business.profileUrl}">Ver espacio</a>
+              <a class="action-clear" href="#info-${business.id}">Más información</a>
+            </div>
+          </div>
+
+          <div class="profile-bottom" id="info-${business.id}">
+            <div class="inner-box">
+              <div class="inner-label">Acerca del negocio</div>
+              <p>${business.bio}</p>
+            </div>
+
+            <div class="inner-box">
+              <div class="inner-label">Información visible</div>
+              <div class="info-list">
+                <div>📍 ${business.address}</div>
+                <div>🕒 ${business.hours}</div>
+                <div>📞 ${business.phone || "Pendiente por actualizar"}</div>
+                <div>🌐 ${business.website || "Pendiente por actualizar"}</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    searchInput.addEventListener("input", renderProfiles);
+    renderProfiles();
+  </script>
 </body>
 </html>
