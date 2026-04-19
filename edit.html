@@ -1,71 +1,354 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Editar Perfil - BSS</title>
+
+  <style>
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#0f172a,#020617);
+      color:white;
+    }
+
+    .wrap{
+      width:min(calc(100% - 32px), 900px);
+      margin:0 auto;
+      padding:24px 0 40px;
+    }
+
+    .card{
+      background:#1e293b;
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:20px;
+      padding:24px;
+      margin-bottom:20px;
+    }
+
+    h1,h2{
+      margin-top:0;
+    }
+
+    p{
+      color:#cbd5e1;
+      line-height:1.7;
+    }
+
+    .fields{
+      display:grid;
+      gap:14px;
+    }
+
+    .two{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    label{
+      display:block;
+      margin-bottom:6px;
+      color:#dbeafe;
+      font-size:.92rem;
+    }
+
+    input, textarea{
+      width:100%;
+      padding:14px;
+      border:none;
+      border-radius:14px;
+      background:#0f172a;
+      color:white;
+      border:1px solid rgba(255,255,255,.08);
+      box-sizing:border-box;
+      font-size:1rem;
+    }
+
+    textarea{
+      min-height:120px;
+      resize:vertical;
+    }
+
+    input[type="file"]{
+      padding:10px;
+      background:#0f172a;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:48px;
+      padding:0 18px;
+      border:none;
+      border-radius:14px;
+      background:#38bdf8;
+      color:#082f49;
+      font-weight:700;
+      cursor:pointer;
+      text-decoration:none;
+    }
+
+    .btn-secondary{
+      background:#334155;
+      color:white;
+    }
+
+    .row{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:18px;
+    }
+
+    .status{
+      margin-top:16px;
+      padding:14px;
+      border-radius:14px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.10);
+      color:#e2e8f0;
+    }
+
+    .logo-preview{
+      width:110px;
+      height:110px;
+      object-fit:cover;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.12);
+      background:#0f172a;
+      margin-top:10px;
+    }
+
+    .back{
+      display:inline-block;
+      margin-bottom:16px;
+      color:#93c5fd;
+      text-decoration:none;
+      font-weight:700;
+    }
+
+    @media (max-width:700px){
+      .two{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="wrap">
+    <a class="back" href="index.html">← Volver</a>
 
-<h2>Editar tu negocio</h2>
+    <div class="card">
+      <h1>Editar Perfil</h1>
+      <p>
+        Aquí puedes actualizar la información pública del negocio y subir un logo real.
+      </p>
+      <div id="statusBox" class="status">Cargando negocio...</div>
+    </div>
 
-<form id="form">
-  <input id="name" placeholder="Nombre"><br><br>
-  <input id="phone" placeholder="Teléfono"><br><br>
-  <input id="address" placeholder="Dirección"><br><br>
-  <input id="hours" placeholder="Horario"><br><br>
-  <input id="logo" placeholder="URL Logo"><br><br>
+    <div class="card">
+      <h2>Información del negocio</h2>
 
-  <button type="submit">Guardar</button>
-</form>
+      <form id="form" class="fields">
+        <div>
+          <label>Nombre del negocio</label>
+          <input id="name" />
+        </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <div class="two">
+          <div>
+            <label>Categoría</label>
+            <input id="category" />
+          </div>
+          <div>
+            <label>Ciudad</label>
+            <input id="city" />
+          </div>
+        </div>
 
-<script>
-const SUPABASE_URL = "https://ikpipurcoztxanrdwzvm.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcGlwdXJjb3p0eGFucmR3enZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTc0MDIsImV4cCI6MjA5MjA5MzQwMn0.E33Gc3OyYkig81xsvF6T9r_ANtFbSUc24D1vLenn3y4";
+        <div>
+          <label>Dirección física</label>
+          <input id="address" />
+        </div>
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        <div class="two">
+          <div>
+            <label>Horario</label>
+            <input id="hours" />
+          </div>
+          <div>
+            <label>Teléfono</label>
+            <input id="phone" />
+          </div>
+        </div>
 
-// Obtener ID del URL
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
+        <div>
+          <label>Website / red principal</label>
+          <input id="website" />
+        </div>
 
-// Cargar datos
-async function loadData() {
-  const { data } = await supabase
-    .from("businesses")
-    .select("*")
-    .eq("id", id)
-    .single();
+        <div>
+          <label>Tagline</label>
+          <input id="tagline" />
+        </div>
 
-  if (data) {
-    document.getElementById("name").value = data.name || "";
-    document.getElementById("phone").value = data.phone || "";
-    document.getElementById("address").value = data.address || "";
-    document.getElementById("hours").value = data.hours || "";
-    document.getElementById("logo").value = data.logo || "";
-  }
-}
+        <div>
+          <label>Descripción</label>
+          <textarea id="bio"></textarea>
+        </div>
 
-loadData();
+        <div>
+          <label>Subir logo</label>
+          <input type="file" id="logoFile" accept="image/*" />
+          <img id="logoPreview" class="logo-preview" alt="Logo preview" />
+        </div>
 
-// Guardar cambios
-document.getElementById("form").addEventListener("submit", async (e) => {
-  e.preventDefault();
+        <div class="row">
+          <button type="submit" class="btn">Guardar cambios</button>
+          <button type="button" id="refreshBtn" class="btn btn-secondary">Recargar datos</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-  await supabase
-    .from("businesses")
-    .update({
-      name: name.value,
-      phone: phone.value,
-      address: address.value,
-      hours: hours.value,
-      logo: logo.value
-    })
-    .eq("id", id);
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://ikpipurcoztxanrdwzvm.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcGlwdXJjb3p0eGFucmR3enZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTc0MDIsImV4cCI6MjA5MjA5MzQwMn0.E33Gc3OyYkig81xsvF6T9r_ANtFbSUc24D1vLenn3y4";
 
-  alert("Perfil actualizado");
-});
-</script>
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    const statusBox = document.getElementById("statusBox");
+    const logoPreview = document.getElementById("logoPreview");
+    const logoFileInput = document.getElementById("logoFile");
+
+    let currentLogoUrl = "";
+
+    function setStatus(message, isError = false) {
+      statusBox.textContent = message;
+      statusBox.style.borderColor = isError ? "rgba(239,68,68,.35)" : "rgba(255,255,255,.10)";
+      statusBox.style.background = isError ? "rgba(239,68,68,.10)" : "rgba(255,255,255,.04)";
+    }
+
+    async function loadBusiness() {
+      if (!id) {
+        setStatus("Falta el parámetro ?id= en la URL.", true);
+        return;
+      }
+
+      setStatus("Cargando negocio...");
+
+      const { data, error } = await supabase
+        .from("businesses")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error) {
+        console.error(error);
+        setStatus("No se pudo cargar el negocio.", true);
+        return;
+      }
+
+      document.getElementById("name").value = data.name || "";
+      document.getElementById("category").value = data.category || "";
+      document.getElementById("city").value = data.city || "";
+      document.getElementById("address").value = data.address || "";
+      document.getElementById("hours").value = data.hours || "";
+      document.getElementById("phone").value = data.phone || "";
+      document.getElementById("website").value = data.website || "";
+      document.getElementById("tagline").value = data.tagline || "";
+      document.getElementById("bio").value = data.bio || "";
+
+      currentLogoUrl = data.logo || "";
+      logoPreview.src = currentLogoUrl || "";
+      logoPreview.style.display = currentLogoUrl ? "block" : "none";
+
+      setStatus("Negocio cargado correctamente.");
+    }
+
+    async function uploadLogoIfNeeded() {
+      const file = logoFileInput.files[0];
+      if (!file) return currentLogoUrl;
+
+      const ext = file.name.split(".").pop();
+      const filePath = `business-${id}/logo-${Date.now()}.${ext}`;
+
+      const { error: uploadError } = await supabase
+        .storage
+        .from("business-logos")
+        .upload(filePath, file, {
+          cacheControl: "3600",
+          upsert: true
+        });
+
+      if (uploadError) {
+        console.error(uploadError);
+        throw new Error("No se pudo subir el logo.");
+      }
+
+      const { data } = supabase
+        .storage
+        .from("business-logos")
+        .getPublicUrl(filePath);
+
+      return data.publicUrl;
+    }
+
+    document.getElementById("form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      try {
+        setStatus("Guardando cambios...");
+
+        const finalLogoUrl = await uploadLogoIfNeeded();
+
+        const payload = {
+          name: document.getElementById("name").value.trim(),
+          category: document.getElementById("category").value.trim(),
+          city: document.getElementById("city").value.trim(),
+          address: document.getElementById("address").value.trim(),
+          hours: document.getElementById("hours").value.trim(),
+          phone: document.getElementById("phone").value.trim(),
+          website: document.getElementById("website").value.trim(),
+          tagline: document.getElementById("tagline").value.trim(),
+          bio: document.getElementById("bio").value.trim(),
+          logo: finalLogoUrl
+        };
+
+        const { error } = await supabase
+          .from("businesses")
+          .update(payload)
+          .eq("id", id);
+
+        if (error) {
+          console.error(error);
+          setStatus("No se pudieron guardar los cambios.", true);
+          return;
+        }
+
+        currentLogoUrl = finalLogoUrl;
+        if (currentLogoUrl) {
+          logoPreview.src = currentLogoUrl;
+          logoPreview.style.display = "block";
+        }
+
+        setStatus("Perfil actualizado correctamente.");
+      } catch (err) {
+        console.error(err);
+        setStatus(err.message || "Error subiendo logo.", true);
+      }
+    });
+
+    document.getElementById("refreshBtn").addEventListener("click", loadBusiness);
+
+    loadBusiness();
+  </script>
 </body>
 </html>
