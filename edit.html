@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editar Perfil - BSS DEBUG 3</title>
+  <title>Editar Perfil - BSS</title>
 
   <style>
     body{
@@ -12,11 +12,13 @@
       background:linear-gradient(180deg,#0f172a,#020617);
       color:white;
     }
+
     .wrap{
       width:min(calc(100% - 32px), 900px);
       margin:0 auto;
       padding:24px 0 40px;
     }
+
     .card{
       background:#1e293b;
       border:1px solid rgba(255,255,255,.10);
@@ -24,16 +26,32 @@
       padding:24px;
       margin-bottom:20px;
     }
+
     h1,h2{margin-top:0}
-    p{color:#cbd5e1;line-height:1.7}
-    .fields{display:grid;gap:14px}
-    .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+    p{
+      color:#cbd5e1;
+      line-height:1.7;
+    }
+
+    .fields{
+      display:grid;
+      gap:14px;
+    }
+
+    .two{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
     label{
       display:block;
       margin-bottom:6px;
       color:#dbeafe;
       font-size:.92rem;
     }
+
     input, textarea{
       width:100%;
       padding:14px;
@@ -45,11 +63,16 @@
       box-sizing:border-box;
       font-size:1rem;
     }
+
     textarea{
       min-height:120px;
       resize:vertical;
     }
-    input[type="file"]{padding:10px}
+
+    input[type="file"]{
+      padding:10px;
+    }
+
     .btn{
       display:inline-flex;
       align-items:center;
@@ -64,16 +87,19 @@
       cursor:pointer;
       text-decoration:none;
     }
+
     .btn-secondary{
       background:#334155;
       color:white;
     }
+
     .row{
       display:flex;
       gap:12px;
       flex-wrap:wrap;
       margin-top:18px;
     }
+
     .status{
       margin-top:16px;
       padding:14px;
@@ -82,6 +108,7 @@
       border:1px solid rgba(255,255,255,.10);
       color:#e2e8f0;
     }
+
     .logo-preview{
       width:110px;
       height:110px;
@@ -92,6 +119,7 @@
       margin-top:10px;
       display:none;
     }
+
     .back{
       display:inline-block;
       margin-bottom:16px;
@@ -99,21 +127,11 @@
       text-decoration:none;
       font-weight:700;
     }
-    .debug{
-      margin-top:16px;
-      padding:14px;
-      border-radius:14px;
-      background:#020617;
-      border:1px solid rgba(255,255,255,.08);
-      color:#cbd5e1;
-      font-family:Consolas, monospace;
-      font-size:.9rem;
-      white-space:pre-wrap;
-      overflow:auto;
-      min-height:120px;
-    }
+
     @media (max-width:700px){
-      .two{grid-template-columns:1fr}
+      .two{
+        grid-template-columns:1fr;
+      }
     }
   </style>
 </head>
@@ -124,8 +142,7 @@
     <div class="card">
       <h1>Editar Perfil</h1>
       <p>Aquí puedes actualizar la información pública del negocio y subir un logo real.</p>
-      <div id="statusBox" class="status">Iniciando script...</div>
-      <div id="debugBox" class="debug">Boot...</div>
+      <div id="statusBox" class="status">Cargando negocio...</div>
     </div>
 
     <div class="card">
@@ -193,14 +210,21 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const debugBox = document.getElementById("debugBox");
-    const statusBox = document.getElementById("statusBox");
+    const SUPABASE_URL = "https://ikpipurcoztxanrdwzvm.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcGlwdXJjb3p0eGFucmR3enZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTc0MDIsImV4cCI6MjA5MjA5MzQwMn0.E33Gc3OyYkig81xsvF6T9r_ANtFbSUc24D1vLenn3y4";
 
-    function setDebug(message) {
-      debugBox.textContent += "\\n" + message;
-      console.log(message);
-    }
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    const statusBox = document.getElementById("statusBox");
+    const logoPreview = document.getElementById("logoPreview");
+    const logoFileInput = document.getElementById("logoFile");
+
+    let currentLogoUrl = "";
 
     function setStatus(message, isError = false) {
       statusBox.textContent = message;
@@ -208,203 +232,145 @@
       statusBox.style.background = isError ? "rgba(239,68,68,.10)" : "rgba(255,255,255,.04)";
     }
 
-    window.onerror = function(message, source, lineno, colno) {
-      setStatus("Error global de JavaScript.", true);
-      setDebug("window.onerror -> " + message + " @ " + source + ":" + lineno + ":" + colno);
-    };
+    function showPreview(src) {
+      if (!src) {
+        logoPreview.removeAttribute("src");
+        logoPreview.style.display = "none";
+        return;
+      }
 
-    window.addEventListener("unhandledrejection", function(event) {
-      setStatus("Promise rechazada.", true);
-      setDebug("unhandledrejection -> " + (event.reason?.message || event.reason || "sin detalle"));
+      logoPreview.src = src;
+      logoPreview.style.display = "block";
+    }
+
+    logoFileInput.addEventListener("change", () => {
+      const file = logoFileInput.files[0];
+
+      if (!file) {
+        showPreview(currentLogoUrl);
+        return;
+      }
+
+      const localUrl = URL.createObjectURL(file);
+      showPreview(localUrl);
+      setStatus("Logo seleccionado. Falta guardar cambios para subirlo.");
     });
 
-    setDebug("Script inline arrancó.");
-  </script>
+    async function loadBusiness() {
+      if (!id) {
+        setStatus("Falta el parámetro ?id= en la URL. Ejemplo: edit.html?id=1", true);
+        return;
+      }
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+      setStatus("Cargando negocio...");
 
-  <script>
-    (async function () {
+      const { data, error } = await supabase
+        .from("businesses")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error) {
+        console.error("LOAD ERROR:", error);
+        setStatus("No se pudo cargar el negocio.", true);
+        return;
+      }
+
+      if (!data) {
+        setStatus("No se encontró negocio con ese id.", true);
+        return;
+      }
+
+      document.getElementById("name").value = data.name || "";
+      document.getElementById("category").value = data.category || "";
+      document.getElementById("city").value = data.city || "";
+      document.getElementById("address").value = data.address || "";
+      document.getElementById("hours").value = data.hours || "";
+      document.getElementById("phone").value = data.phone || "";
+      document.getElementById("website").value = data.website || "";
+      document.getElementById("tagline").value = data.tagline || "";
+      document.getElementById("bio").value = data.bio || "";
+
+      currentLogoUrl = data.logo || "";
+      showPreview(currentLogoUrl);
+
+      setStatus("Negocio cargado correctamente.");
+    }
+
+    async function uploadLogoIfNeeded() {
+      const file = logoFileInput.files[0];
+      if (!file) return currentLogoUrl;
+
+      const ext = file.name.split(".").pop();
+      const filePath = `business-${id}/logo-${Date.now()}.${ext}`;
+
+      const { error: uploadError } = await supabase
+        .storage
+        .from("business-logos")
+        .upload(filePath, file, {
+          cacheControl: "3600",
+          upsert: true
+        });
+
+      if (uploadError) {
+        console.error("UPLOAD ERROR:", uploadError);
+        throw new Error("No se pudo subir el logo.");
+      }
+
+      const { data } = supabase
+        .storage
+        .from("business-logos")
+        .getPublicUrl(filePath);
+
+      return data.publicUrl;
+    }
+
+    document.getElementById("form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
       try {
-        setDebug("Entrando al bloque principal.");
+        setStatus("Guardando cambios...");
 
-        const SUPABASE_URL = "https://ikpipurcoztxanrdwzvm.supabase.co";
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcGlwdXJjb3p0eGFucmR3enZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTc0MDIsImV4cCI6MjA5MjA5MzQwMn0.E33Gc3OyYkig81xsvF6T9r_ANtFbSUc24D1vLenn3y4";
+        const finalLogoUrl = await uploadLogoIfNeeded();
 
-        setDebug("URL definida: " + SUPABASE_URL);
+        const payload = {
+          name: document.getElementById("name").value.trim(),
+          category: document.getElementById("category").value.trim(),
+          city: document.getElementById("city").value.trim(),
+          address: document.getElementById("address").value.trim(),
+          hours: document.getElementById("hours").value.trim(),
+          phone: document.getElementById("phone").value.trim(),
+          website: document.getElementById("website").value.trim(),
+          tagline: document.getElementById("tagline").value.trim(),
+          bio: document.getElementById("bio").value.trim(),
+          logo: finalLogoUrl
+        };
 
-        if (!window.supabase) {
-          setStatus("No cargó la librería de Supabase.", true);
-          setDebug("window.supabase es undefined.");
+        const { error } = await supabase
+          .from("businesses")
+          .update(payload)
+          .eq("id", id);
+
+        if (error) {
+          console.error("UPDATE ERROR:", error);
+          setStatus("No se pudieron guardar los cambios.", true);
           return;
         }
 
-        setDebug("Librería Supabase detectada.");
+        currentLogoUrl = finalLogoUrl;
+        showPreview(currentLogoUrl);
+        logoFileInput.value = "";
 
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        setDebug("Cliente Supabase creado.");
-
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("id");
-        setDebug("ID detectado: " + id);
-
-        const logoPreview = document.getElementById("logoPreview");
-        const logoFileInput = document.getElementById("logoFile");
-        let currentLogoUrl = "";
-
-        function showPreview(src) {
-          if (!src) {
-            logoPreview.removeAttribute("src");
-            logoPreview.style.display = "none";
-            return;
-          }
-          logoPreview.src = src;
-          logoPreview.style.display = "block";
-        }
-
-        logoFileInput.addEventListener("change", () => {
-          const file = logoFileInput.files[0];
-          if (!file) {
-            showPreview(currentLogoUrl);
-            setDebug("No se seleccionó archivo.");
-            return;
-          }
-          const localUrl = URL.createObjectURL(file);
-          showPreview(localUrl);
-          setStatus("Logo seleccionado. Falta guardar cambios para subirlo.");
-          setDebug("Archivo seleccionado: " + file.name);
-        });
-
-        async function loadBusiness() {
-          if (!id) {
-            setStatus("Falta ?id= en la URL. Ejemplo: edit.html?id=1", true);
-            setDebug("Abortado: no hay id.");
-            return;
-          }
-
-          setStatus("Consultando negocio...");
-          setDebug("Lanzando consulta a Supabase...");
-
-          const { data, error } = await supabase
-            .from("businesses")
-            .select("*")
-            .eq("id", id)
-            .single();
-
-          if (error) {
-            setStatus("No se pudo cargar el negocio.", true);
-            setDebug("ERROR consulta -> " + JSON.stringify(error, null, 2));
-            return;
-          }
-
-          if (!data) {
-            setStatus("No se encontró negocio con ese id.", true);
-            setDebug("La consulta respondió sin data.");
-            return;
-          }
-
-          document.getElementById("name").value = data.name || "";
-          document.getElementById("category").value = data.category || "";
-          document.getElementById("city").value = data.city || "";
-          document.getElementById("address").value = data.address || "";
-          document.getElementById("hours").value = data.hours || "";
-          document.getElementById("phone").value = data.phone || "";
-          document.getElementById("website").value = data.website || "";
-          document.getElementById("tagline").value = data.tagline || "";
-          document.getElementById("bio").value = data.bio || "";
-
-          currentLogoUrl = data.logo || "";
-          showPreview(currentLogoUrl);
-
-          setStatus("Negocio cargado correctamente.");
-          setDebug("DATA -> " + JSON.stringify(data, null, 2));
-        }
-
-        async function uploadLogoIfNeeded() {
-          const file = logoFileInput.files[0];
-          if (!file) return currentLogoUrl;
-
-          const ext = file.name.split(".").pop();
-          const filePath = "business-" + id + "/logo-" + Date.now() + "." + ext;
-
-          setDebug("Subiendo logo a: " + filePath);
-
-          const { error: uploadError } = await supabase
-            .storage
-            .from("business-logos")
-            .upload(filePath, file, {
-              cacheControl: "3600",
-              upsert: true
-            });
-
-          if (uploadError) {
-            throw uploadError;
-          }
-
-          const { data } = supabase
-            .storage
-            .from("business-logos")
-            .getPublicUrl(filePath);
-
-          setDebug("Logo subido. URL pública: " + data.publicUrl);
-          return data.publicUrl;
-        }
-
-        document.getElementById("form").addEventListener("submit", async (e) => {
-          e.preventDefault();
-
-          try {
-            setStatus("Guardando cambios...");
-            setDebug("Submit detectado.");
-
-            const finalLogoUrl = await uploadLogoIfNeeded();
-
-            const payload = {
-              name: document.getElementById("name").value.trim(),
-              category: document.getElementById("category").value.trim(),
-              city: document.getElementById("city").value.trim(),
-              address: document.getElementById("address").value.trim(),
-              hours: document.getElementById("hours").value.trim(),
-              phone: document.getElementById("phone").value.trim(),
-              website: document.getElementById("website").value.trim(),
-              tagline: document.getElementById("tagline").value.trim(),
-              bio: document.getElementById("bio").value.trim(),
-              logo: finalLogoUrl
-            };
-
-            setDebug("Payload -> " + JSON.stringify(payload, null, 2));
-
-            const { error } = await supabase
-              .from("businesses")
-              .update(payload)
-              .eq("id", id);
-
-            if (error) {
-              setStatus("No se pudieron guardar los cambios.", true);
-              setDebug("ERROR update -> " + JSON.stringify(error, null, 2));
-              return;
-            }
-
-            currentLogoUrl = finalLogoUrl;
-            showPreview(currentLogoUrl);
-            logoFileInput.value = "";
-
-            setStatus("Perfil actualizado correctamente.");
-            setDebug("Guardado exitoso.");
-          } catch (err) {
-            setStatus("Error guardando cambios.", true);
-            setDebug("EXCEPTION submit -> " + (err?.message || err));
-          }
-        });
-
-        document.getElementById("refreshBtn").addEventListener("click", loadBusiness);
-
-        await loadBusiness();
+        setStatus("Perfil actualizado correctamente.");
       } catch (err) {
-        setStatus("Error principal del script.", true);
-        setDebug("EXCEPTION principal -> " + (err?.message || err));
+        console.error("SAVE ERROR:", err);
+        setStatus(err.message || "Error guardando cambios.", true);
       }
-    })();
+    });
+
+    document.getElementById("refreshBtn").addEventListener("click", loadBusiness);
+
+    loadBusiness();
   </script>
 </body>
 </html>
