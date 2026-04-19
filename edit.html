@@ -73,7 +73,6 @@
 
     input[type="file"]{
       padding:10px;
-      background:#0f172a;
     }
 
     .btn{
@@ -120,6 +119,7 @@
       border:1px solid rgba(255,255,255,.12);
       background:#0f172a;
       margin-top:10px;
+      display:none;
     }
 
     .back{
@@ -143,9 +143,7 @@
 
     <div class="card">
       <h1>Editar Perfil</h1>
-      <p>
-        Aquí puedes actualizar la información pública del negocio y subir un logo real.
-      </p>
+      <p>Aquí puedes actualizar la información pública del negocio y subir un logo real.</p>
       <div id="statusBox" class="status">Cargando negocio...</div>
     </div>
 
@@ -216,8 +214,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const SUPABASE_URL = "https://ikpipurcoztxanrdwzvm.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcGlwdXJjb3p0eGFucmR3enZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTc0MDIsImV4cCI6MjA5MjA5MzQwMn0.E33Gc3OyYkig81xsvF6T9r_ANtFbSUc24D1vLenn3y4";
+    const SUPABASE_URL = "TU_PROJECT_URL";
+    const SUPABASE_ANON_KEY = "TU_ANON_KEY";
 
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -236,9 +234,33 @@
       statusBox.style.background = isError ? "rgba(239,68,68,.10)" : "rgba(255,255,255,.04)";
     }
 
+    function showPreview(src) {
+      if (!src) {
+        logoPreview.removeAttribute("src");
+        logoPreview.style.display = "none";
+        return;
+      }
+
+      logoPreview.src = src;
+      logoPreview.style.display = "block";
+    }
+
+    logoFileInput.addEventListener("change", () => {
+      const file = logoFileInput.files[0];
+
+      if (!file) {
+        showPreview(currentLogoUrl);
+        return;
+      }
+
+      const localUrl = URL.createObjectURL(file);
+      showPreview(localUrl);
+      setStatus("Logo seleccionado. Falta guardar cambios para subirlo.");
+    });
+
     async function loadBusiness() {
       if (!id) {
-        setStatus("Falta el parámetro ?id= en la URL.", true);
+        setStatus("Falta el parámetro ?id= en la URL. Ejemplo: edit.html?id=1", true);
         return;
       }
 
@@ -251,8 +273,13 @@
         .single();
 
       if (error) {
-        console.error(error);
-        setStatus("No se pudo cargar el negocio.", true);
+        console.error("LOAD ERROR:", error);
+        setStatus("No se pudo cargar el negocio. Revisa si el id existe.", true);
+        return;
+      }
+
+      if (!data) {
+        setStatus("No se encontró negocio con ese id.", true);
         return;
       }
 
@@ -267,8 +294,7 @@
       document.getElementById("bio").value = data.bio || "";
 
       currentLogoUrl = data.logo || "";
-      logoPreview.src = currentLogoUrl || "";
-      logoPreview.style.display = currentLogoUrl ? "block" : "none";
+      showPreview(currentLogoUrl);
 
       setStatus("Negocio cargado correctamente.");
     }
@@ -289,7 +315,7 @@
         });
 
       if (uploadError) {
-        console.error(uploadError);
+        console.error("UPLOAD ERROR:", uploadError);
         throw new Error("No se pudo subir el logo.");
       }
 
@@ -328,21 +354,19 @@
           .eq("id", id);
 
         if (error) {
-          console.error(error);
+          console.error("UPDATE ERROR:", error);
           setStatus("No se pudieron guardar los cambios.", true);
           return;
         }
 
         currentLogoUrl = finalLogoUrl;
-        if (currentLogoUrl) {
-          logoPreview.src = currentLogoUrl;
-          logoPreview.style.display = "block";
-        }
+        showPreview(currentLogoUrl);
+        logoFileInput.value = "";
 
         setStatus("Perfil actualizado correctamente.");
       } catch (err) {
-        console.error(err);
-        setStatus(err.message || "Error subiendo logo.", true);
+        console.error("SAVE ERROR:", err);
+        setStatus(err.message || "Error guardando cambios.", true);
       }
     });
 
