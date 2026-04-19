@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Editar Perfil - BSS</title>
+</head>
+<body>
+
+<h2>Editar tu negocio</h2>
+
+<form id="form">
+  <input id="name" placeholder="Nombre"><br><br>
+  <input id="phone" placeholder="Teléfono"><br><br>
+  <input id="address" placeholder="Dirección"><br><br>
+  <input id="hours" placeholder="Horario"><br><br>
+  <input id="logo" placeholder="URL Logo"><br><br>
+
+  <button type="submit">Guardar</button>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://ikpipurcoztxanrdwzvm.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcGlwdXJjb3p0eGFucmR3enZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTc0MDIsImV4cCI6MjA5MjA5MzQwMn0.E33Gc3OyYkig81xsvF6T9r_ANtFbSUc24D1vLenn3y4";
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Obtener ID del URL
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+// Cargar datos
+async function loadData() {
+  const { data } = await supabase
+    .from("businesses")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (data) {
+    document.getElementById("name").value = data.name || "";
+    document.getElementById("phone").value = data.phone || "";
+    document.getElementById("address").value = data.address || "";
+    document.getElementById("hours").value = data.hours || "";
+    document.getElementById("logo").value = data.logo || "";
+  }
+}
+
+loadData();
+
+// Guardar cambios
+document.getElementById("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  await supabase
+    .from("businesses")
+    .update({
+      name: name.value,
+      phone: phone.value,
+      address: address.value,
+      hours: hours.value,
+      logo: logo.value
+    })
+    .eq("id", id);
+
+  alert("Perfil actualizado");
+});
+</script>
+
+</body>
+</html>
