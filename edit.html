@@ -5,51 +5,466 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Edit Business - BSS Operations</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      color: #111827;
+    }
+
+    .topbar {
+      background: #111827;
+      color: white;
+      padding: 18px 24px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 30px 20px 60px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      padding: 28px;
+    }
+
+    .title {
+      font-size: 28px;
+      margin: 0 0 8px;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      margin: 0 0 24px;
+    }
+
+    .message {
+      display: none;
+      padding: 14px 16px;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      font-weight: bold;
+    }
+
+    .message.success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .message.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 15px;
+      font-family: Arial, sans-serif;
+      background: white;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .readonly {
+      background: #f9fafb;
+      color: #6b7280;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    button,
+    .button-link {
+      border: none;
+      border-radius: 12px;
+      padding: 13px 18px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .primary {
+      background: #111827;
+      color: white;
+    }
+
+    .primary:hover {
+      background: #000000;
+    }
+
+    .secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .secondary:hover {
+      background: #d1d5db;
+    }
+
+    .loading-box {
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      padding: 28px;
+      text-align: center;
+    }
+
+    @media (max-width: 800px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>BSS Edit Test</h1>
-  <div id="app">Loading...</div>
+  <div class="topbar">BSS Operations</div>
+
+  <div class="container">
+    <div id="loadingBox" class="loading-box">Loading editor...</div>
+
+    <div id="editorCard" class="card" style="display:none;">
+      <h1 class="title">Edit Business</h1>
+      <p class="subtitle">Update the business profile and save changes.</p>
+
+      <div id="messageBox" class="message"></div>
+
+      <form id="businessForm">
+        <div class="grid">
+          <div class="field">
+            <label for="businessId">Business ID</label>
+            <input id="businessId" type="text" class="readonly" readonly />
+          </div>
+
+          <div class="field">
+            <label for="name">Business Name</label>
+            <input id="name" type="text" required />
+          </div>
+
+          <div class="field">
+            <label for="category">Category</label>
+            <input id="category" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="city">City</label>
+            <input id="city" type="text" />
+          </div>
+
+          <div class="field full">
+            <label for="address">Address</label>
+            <input id="address" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="hours">Hours</label>
+            <input id="hours" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" />
+          </div>
+
+          <div class="field">
+            <label for="website">Website</label>
+            <input id="website" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="logo">Logo URL</label>
+            <input id="logo" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="tagline">Tagline</label>
+            <input id="tagline" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="source">Source</label>
+            <input id="source" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="isclient">Is Client</label>
+            <select id="isclient">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="featured">Featured</label>
+            <select id="featured">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="bio">Bio</label>
+            <textarea id="bio"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="profileSlug">Profile Slug</label>
+            <input id="profileSlug" type="text" class="readonly" readonly />
+          </div>
+
+          <div class="field">
+            <label for="profileUrl">Profile URL</label>
+            <input id="profileUrl" type="text" class="readonly" readonly />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="primary">Save Changes</button>
+          <a id="viewProfileBtn" href="#" target="_blank" class="button-link secondary">View Profile</a>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <script>
     const SUPABASE_URL = 'https://ikpipurcoztxanrdwzvm.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcGlwdXJjb3p0eGFucmR3enZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTc0MDIsImV4cCI6MjA5MjA5MzQwMn0.E33Gc3OyYkig81xsvF6T9r_ANtFbSUc24D1vLenn3y4';
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    const app = document.getElementById('app');
+
+    const loadingBox = document.getElementById('loadingBox');
+    const editorCard = document.getElementById('editorCard');
+    const messageBox = document.getElementById('messageBox');
+    const businessForm = document.getElementById('businessForm');
+    const viewProfileBtn = document.getElementById('viewProfileBtn');
+
+    const businessIdInput = document.getElementById('businessId');
+    const nameInput = document.getElementById('name');
+    const categoryInput = document.getElementById('category');
+    const cityInput = document.getElementById('city');
+    const addressInput = document.getElementById('address');
+    const hoursInput = document.getElementById('hours');
+    const phoneInput = document.getElementById('phone');
+    const emailInput = document.getElementById('email');
+    const websiteInput = document.getElementById('website');
+    const logoInput = document.getElementById('logo');
+    const taglineInput = document.getElementById('tagline');
+    const sourceInput = document.getElementById('source');
+    const isclientInput = document.getElementById('isclient');
+    const featuredInput = document.getElementById('featured');
+    const bioInput = document.getElementById('bio');
+    const profileSlugInput = document.getElementById('profileSlug');
+    const profileUrlInput = document.getElementById('profileUrl');
+
+    let currentEditToken = null;
 
     function getTokenFromUrl() {
       const params = new URLSearchParams(window.location.search);
       return params.get('token');
     }
 
-    async function runTest() {
-      const token = getTokenFromUrl();
+    function showMessage(type, text) {
+      messageBox.className = 'message ' + type;
+      messageBox.textContent = text;
+    }
 
-      if (!token) {
-        app.textContent = 'Missing token in URL';
+    function clearMessage() {
+      messageBox.className = 'message';
+      messageBox.textContent = '';
+    }
+
+    function setViewProfileLink(profileUrl) {
+      if (profileUrl) {
+        viewProfileBtn.href = profileUrl;
+        viewProfileBtn.style.pointerEvents = 'auto';
+        viewProfileBtn.style.opacity = '1';
+      } else {
+        viewProfileBtn.href = '#';
+        viewProfileBtn.style.pointerEvents = 'none';
+        viewProfileBtn.style.opacity = '0.5';
+      }
+    }
+
+    function fillForm(data) {
+      businessIdInput.value = data.id ?? '';
+      nameInput.value = data.name ?? '';
+      categoryInput.value = data.category ?? '';
+      cityInput.value = data.city ?? '';
+      addressInput.value = data.address ?? '';
+      hoursInput.value = data.hours ?? '';
+      phoneInput.value = data.phone ?? '';
+      emailInput.value = data.email ?? '';
+      websiteInput.value = data.website ?? '';
+      logoInput.value = data.logo ?? '';
+      taglineInput.value = data.tagline ?? '';
+      sourceInput.value = data.source ?? '';
+      isclientInput.value = String(Boolean(data.isclient));
+      featuredInput.value = String(Boolean(data.featured));
+      bioInput.value = data.bio ?? '';
+      profileSlugInput.value = data.profile_slug ?? '';
+      profileUrlInput.value = data.profileurl ?? '';
+      setViewProfileLink(data.profileurl ?? '');
+    }
+
+    async function loadBusiness() {
+      currentEditToken = getTokenFromUrl();
+
+      if (!currentEditToken) {
+        loadingBox.textContent = 'Missing token in URL.';
         return;
       }
 
       const { data, error } = await supabaseClient
         .from('businesses')
-        .select('id, name, edit_token, profile_slug, profileurl')
-        .eq('edit_token', token)
+        .select(`
+          id,
+          name,
+          category,
+          city,
+          hours,
+          phone,
+          website,
+          tagline,
+          bio,
+          logo,
+          profileurl,
+          source,
+          isclient,
+          address,
+          email,
+          featured,
+          profile_slug
+        `)
+        .eq('edit_token', currentEditToken)
         .maybeSingle();
 
-      if (error) {
-        app.innerHTML = '<pre>' + JSON.stringify(error, null, 2) + '</pre>';
+      if (error || !data) {
+        loadingBox.textContent = 'Unable to load this business.';
         return;
       }
 
-      if (!data) {
-        app.textContent = 'No business found for this token';
-        return;
-      }
-
-      app.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+      fillForm(data);
+      loadingBox.style.display = 'none';
+      editorCard.style.display = 'block';
     }
 
-    runTest();
+    async function refreshBusiness() {
+      const { data, error } = await supabaseClient
+        .from('businesses')
+        .select(`
+          id,
+          name,
+          category,
+          city,
+          hours,
+          phone,
+          website,
+          tagline,
+          bio,
+          logo,
+          profileurl,
+          source,
+          isclient,
+          address,
+          email,
+          featured,
+          profile_slug
+        `)
+        .eq('edit_token', currentEditToken)
+        .maybeSingle();
+
+      if (!error && data) {
+        fillForm(data);
+      }
+    }
+
+    businessForm.addEventListener('submit', async function(event) {
+      event.preventDefault();
+      clearMessage();
+
+      const payload = {
+        name: nameInput.value.trim(),
+        category: categoryInput.value.trim(),
+        city: cityInput.value.trim(),
+        address: addressInput.value.trim(),
+        hours: hoursInput.value.trim(),
+        phone: phoneInput.value.trim(),
+        email: emailInput.value.trim(),
+        website: websiteInput.value.trim(),
+        logo: logoInput.value.trim(),
+        tagline: taglineInput.value.trim(),
+        source: sourceInput.value.trim(),
+        isclient: isclientInput.value === 'true',
+        featured: featuredInput.value === 'true',
+        bio: bioInput.value.trim()
+      };
+
+      const { error } = await supabaseClient
+        .from('businesses')
+        .update(payload)
+        .eq('edit_token', currentEditToken);
+
+      if (error) {
+        showMessage('error', 'Unable to save changes.');
+        return;
+      }
+
+      await refreshBusiness();
+      showMessage('success', 'Changes saved successfully.');
+    });
+
+    loadBusiness();
   </script>
 </body>
 </html>
