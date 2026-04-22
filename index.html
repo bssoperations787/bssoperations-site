@@ -1,52 +1,172 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>BSS - Maintenance</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BSS Business Profiles</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #0d0d0d;
-      color: white;
-      font-family: Arial, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#0f172a,#020617);
+      color:white;
     }
-
-    .container {
-      max-width: 600px;
+    .wrap{
+      width:min(calc(100% - 32px), 1100px);
+      margin:0 auto;
+      padding:24px 0 40px;
     }
-
-    h1 {
-      font-size: 40px;
-      margin-bottom: 20px;
+    .hero{
+      background:linear-gradient(135deg,#1e293b,#111827);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:24px;
+      padding:24px;
+      margin-bottom:20px;
     }
-
-    p {
-      font-size: 18px;
-      color: #aaa;
+    .hero h1{margin:0 0 10px;font-size:2rem}
+    .hero p{margin:0;color:#cbd5e1;line-height:1.7}
+    .status{
+      margin-top:16px;
+      padding:14px 16px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      color:#e2e8f0;
     }
-
-    .logo {
-      font-size: 28px;
-      margin-bottom: 30px;
-      font-weight: bold;
-      color: #00ffcc;
+    .cards{
+      display:grid;
+      gap:16px;
+    }
+    .card{
+      background:#1e293b;
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:20px;
+      padding:20px;
+    }
+    .logo{
+      width:80px;
+      height:80px;
+      object-fit:cover;
+      border-radius:14px;
+      background:#0f172a;
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .row{
+      display:grid;
+      grid-template-columns:90px 1fr;
+      gap:16px;
+      align-items:start;
+    }
+    .muted{color:#cbd5e1}
+    .empty{
+      text-align:center;
+      padding:28px;
+      border-radius:20px;
+      border:1px dashed rgba(255,255,255,.15);
+      color:#cbd5e1;
+      background:rgba(255,255,255,.03);
+    }
+    .debug{
+      margin-top:16px;
+      background:#020617;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:14px;
+      padding:12px;
+      white-space:pre-wrap;
+      overflow:auto;
+      font-family:Consolas, monospace;
+      font-size:.9rem;
+      color:#cbd5e1;
+    }
+    @media (max-width:700px){
+      .row{grid-template-columns:1fr}
+      .logo{width:100px;height:100px}
     }
   </style>
 </head>
 <body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>BSS Business Profiles</h1>
+      <p>Prueba directa de conexión con Supabase.</p>
+      <div class="status" id="statusBox">Conectando...</div>
+    </section>
 
-  <div class="container">
-    <div class="logo">BSS Operations</div>
-    <h1>System Under Maintenance</h1>
-    <p>We are currently upgrading the system.<br>
-    Please check back later.</p>
+    <section class="cards" id="profiles"></section>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://ikpipurcoztxanrdwzvm.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcGlwdXJjb3p0eGFucmR3enZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTc0MDIsImV4cCI6MjA5MjA5MzQwMn0.E33Gc3OyYkig81xsvF6T9r_ANtFbSUc24D1vLenn3y4";
+
+    const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    function safe(v, fallback = "VACÍO") {
+      return v === null || v === undefined || v === "" ? fallback : v;
+    }
+
+    function canPublish(b) {
+      return (
+        b.source === "honeybook" &&
+        b.isclient === true &&
+        !!b.logo &&
+        !!b.name &&
+        !!b.address &&
+        !!b.hours
+      );
+    }
+
+    async function loadProfiles() {
+      const statusBox = document.getElementById("statusBox");
+      const profiles = document.getElementById("profiles");
+
+      try {
+        const { data, error } = await client
+          .from("businesses")
+          .select("*")
+          .order("id", { ascending: true });
+
+        if (error) {
+          console.error("SUPABASE ERROR:", error);
+          statusBox.textContent = "Error de Supabase: " + error.message;
+          return;
+        }
+
+        console.log("SUPABASE DATA:", data);
+
+        statusBox.textContent = "Conexión exitosa. Filas recibidas: " + (data ? data.length : 0);
+
+        if (!data || data.length === 0) {
+          profiles.innerHTML = '<div class="empty">La tabla respondió, pero no hay filas.</div>';
+          return;
+        }
+
+        profiles.innerHTML = data.map(b => `
+          <article class="card">
+            <div class="row">
+              <img class="logo" src="${safe(b.logo, "")}" alt="logo" onerror="this.style.display='none'">
+              <div>
+                <h2>${safe(b.name, "SIN NAME")}</h2>
+                <p class="muted">${safe(b.tagline, "SIN TAGLINE")}</p>
+                <p>📍 ${safe(b.address, "SIN ADDRESS")}</p>
+                <p>🕒 ${safe(b.hours, "SIN HOURS")}</p>
+                <p>📞 ${safe(b.phone, "SIN PHONE")}</p>
+                <p>source: ${safe(b.source, "SIN SOURCE")}</p>
+                <p>isclient: ${String(b.isclient)}</p>
+                <p>publish: ${canPublish(b) ? "YES" : "NO"}</p>
+              </div>
+            </div>
+            <div class="debug">${JSON.stringify(b, null, 2)}</div>
+          </article>
+        `).join("");
+      } catch (err) {
+        console.error("UNEXPECTED ERROR:", err);
+        statusBox.textContent = "Error inesperado: " + err.message;
+      }
+    }
+
+    loadProfiles();
+  </script>
 </body>
 </html>
