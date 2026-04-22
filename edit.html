@@ -1,374 +1,474 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editar Perfil - BSS</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Business - BSS Operations</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    body{
-      margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      background:linear-gradient(180deg,#0f172a,#020617);
-      color:white;
+    * {
+      box-sizing: border-box;
     }
 
-    .wrap{
-      width:min(calc(100% - 32px), 900px);
-      margin:0 auto;
-      padding:24px 0 40px;
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      color: #111827;
     }
 
-    .card{
-      background:#1e293b;
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:20px;
-      padding:24px;
-      margin-bottom:20px;
+    .topbar {
+      background: #111827;
+      color: white;
+      padding: 18px 24px;
+      font-size: 22px;
+      font-weight: bold;
     }
 
-    h1,h2{margin-top:0}
-
-    p{
-      color:#cbd5e1;
-      line-height:1.7;
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 30px 20px 60px;
     }
 
-    .fields{
-      display:grid;
-      gap:14px;
+    .card {
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      padding: 28px;
     }
 
-    .two{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
+    .title {
+      font-size: 28px;
+      margin: 0 0 8px;
     }
 
-    label{
-      display:block;
-      margin-bottom:6px;
-      color:#dbeafe;
-      font-size:.92rem;
+    .subtitle {
+      color: #6b7280;
+      margin: 0 0 24px;
     }
 
-    input, textarea{
-      width:100%;
-      padding:14px;
-      border:none;
-      border-radius:14px;
-      background:#0f172a;
-      color:white;
-      border:1px solid rgba(255,255,255,.08);
-      box-sizing:border-box;
-      font-size:1rem;
+    .message {
+      display: none;
+      padding: 14px 16px;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      font-weight: bold;
     }
 
-    textarea{
-      min-height:120px;
-      resize:vertical;
+    .message.success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
     }
 
-    input[type="file"]{
-      padding:10px;
+    .message.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
     }
 
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-height:48px;
-      padding:0 18px;
-      border:none;
-      border-radius:14px;
-      background:#38bdf8;
-      color:#082f49;
-      font-weight:700;
-      cursor:pointer;
-      text-decoration:none;
+    .message.info {
+      display: block;
+      background: #dbeafe;
+      color: #1d4ed8;
     }
 
-    .btn-secondary{
-      background:#334155;
-      color:white;
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
     }
 
-    .row{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:18px;
+    .field {
+      display: flex;
+      flex-direction: column;
     }
 
-    .status{
-      margin-top:16px;
-      padding:14px;
-      border-radius:14px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.10);
-      color:#e2e8f0;
+    .field.full {
+      grid-column: 1 / -1;
     }
 
-    .logo-preview{
-      width:110px;
-      height:110px;
-      object-fit:cover;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.12);
-      background:#0f172a;
-      margin-top:10px;
-      display:none;
+    label {
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-size: 14px;
     }
 
-    .back{
-      display:inline-block;
-      margin-bottom:16px;
-      color:#93c5fd;
-      text-decoration:none;
-      font-weight:700;
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 15px;
+      font-family: Arial, sans-serif;
+      background: white;
     }
 
-    @media (max-width:700px){
-      .two{
-        grid-template-columns:1fr;
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .readonly {
+      background: #f9fafb;
+      color: #6b7280;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    button,
+    .button-link {
+      border: none;
+      border-radius: 12px;
+      padding: 13px 18px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .primary {
+      background: #111827;
+      color: white;
+    }
+
+    .primary:hover {
+      background: #000000;
+    }
+
+    .secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .secondary:hover {
+      background: #d1d5db;
+    }
+
+    .loading-box {
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      padding: 28px;
+      text-align: center;
+    }
+
+    @media (max-width: 800px) {
+      .grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <a class="back" href="index.html">← Volver</a>
+  <div class="topbar">BSS Operations</div>
 
-    <div class="card">
-      <h1>Editar Perfil</h1>
-      <p>Aquí puedes actualizar la información pública del negocio y subir un logo real.</p>
-      <div id="statusBox" class="status">Cargando negocio...</div>
-    </div>
+  <div class="container">
+    <div id="loadingBox" class="loading-box">Loading editor...</div>
 
-    <div class="card">
-      <h2>Información del negocio</h2>
+    <div id="editorCard" class="card" style="display:none;">
+      <h1 class="title">Edit Business</h1>
+      <p class="subtitle">Update the business profile and save changes.</p>
 
-      <form id="form" class="fields">
-        <div>
-          <label>Nombre del negocio</label>
-          <input id="name" />
-        </div>
+      <div id="messageBox" class="message"></div>
 
-        <div class="two">
-          <div>
-            <label>Categoría</label>
-            <input id="category" />
+      <form id="businessForm">
+        <div class="grid">
+          <div class="field">
+            <label for="businessId">Business ID</label>
+            <input id="businessId" type="text" class="readonly" readonly />
           </div>
-          <div>
-            <label>Ciudad</label>
-            <input id="city" />
+
+          <div class="field">
+            <label for="name">Business Name</label>
+            <input id="name" type="text" required />
+          </div>
+
+          <div class="field">
+            <label for="category">Category</label>
+            <input id="category" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="city">City</label>
+            <input id="city" type="text" />
+          </div>
+
+          <div class="field full">
+            <label for="address">Address</label>
+            <input id="address" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="hours">Hours</label>
+            <input id="hours" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" />
+          </div>
+
+          <div class="field">
+            <label for="website">Website</label>
+            <input id="website" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="logo">Logo URL</label>
+            <input id="logo" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="tagline">Tagline</label>
+            <input id="tagline" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="source">Source</label>
+            <input id="source" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="isclient">Is Client</label>
+            <select id="isclient">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="featured">Featured</label>
+            <select id="featured">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="bio">Bio</label>
+            <textarea id="bio"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="profileSlug">Profile Slug</label>
+            <input id="profileSlug" type="text" class="readonly" readonly />
+          </div>
+
+          <div class="field">
+            <label for="profileUrl">Profile URL</label>
+            <input id="profileUrl" type="text" class="readonly" readonly />
           </div>
         </div>
 
-        <div>
-          <label>Dirección física</label>
-          <input id="address" />
-        </div>
-
-        <div class="two">
-          <div>
-            <label>Horario</label>
-            <input id="hours" />
-          </div>
-          <div>
-            <label>Teléfono</label>
-            <input id="phone" />
-          </div>
-        </div>
-
-        <div>
-          <label>Website / red principal</label>
-          <input id="website" />
-        </div>
-
-        <div>
-          <label>Tagline</label>
-          <input id="tagline" />
-        </div>
-
-        <div>
-          <label>Descripción</label>
-          <textarea id="bio"></textarea>
-        </div>
-
-        <div>
-          <label>Subir logo</label>
-          <input type="file" id="logoFile" accept="image/*" />
-          <img id="logoPreview" class="logo-preview" alt="Logo preview" />
-        </div>
-
-        <div class="row">
-          <button type="submit" class="btn">Guardar cambios</button>
-          <button type="button" id="refreshBtn" class="btn btn-secondary">Recargar datos</button>
+        <div class="actions">
+          <button type="submit" class="primary">Save Changes</button>
+          <a id="viewProfileBtn" href="#" target="_blank" class="button-link secondary">View Profile</a>
         </div>
       </form>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const SUPABASE_URL = "https://ikpipurcoztxanrdwzvm.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcGlwdXJjb3p0eGFucmR3enZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTc0MDIsImV4cCI6MjA5MjA5MzQwMn0.E33Gc3OyYkig81xsvF6T9r_ANtFbSUc24D1vLenn3y4";
+    const SUPABASE_URL = 'https://ikpipurcoztxanrdwzvm.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcGlwdXJjb3p0eGFucmR3enZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTc0MDIsImV4cCI6MjA5MjA5MzQwMn0.E33Gc3OyYkig81xsvF6T9r_ANtFbSUc24D1vLenn3y4';
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
+    const loadingBox = document.getElementById('loadingBox');
+    const editorCard = document.getElementById('editorCard');
+    const messageBox = document.getElementById('messageBox');
+    const businessForm = document.getElementById('businessForm');
+    const viewProfileBtn = document.getElementById('viewProfileBtn');
 
-    const statusBox = document.getElementById("statusBox");
-    const logoPreview = document.getElementById("logoPreview");
-    const logoFileInput = document.getElementById("logoFile");
+    const businessIdInput = document.getElementById('businessId');
+    const nameInput = document.getElementById('name');
+    const categoryInput = document.getElementById('category');
+    const cityInput = document.getElementById('city');
+    const addressInput = document.getElementById('address');
+    const hoursInput = document.getElementById('hours');
+    const phoneInput = document.getElementById('phone');
+    const emailInput = document.getElementById('email');
+    const websiteInput = document.getElementById('website');
+    const logoInput = document.getElementById('logo');
+    const taglineInput = document.getElementById('tagline');
+    const sourceInput = document.getElementById('source');
+    const isclientInput = document.getElementById('isclient');
+    const featuredInput = document.getElementById('featured');
+    const bioInput = document.getElementById('bio');
+    const profileSlugInput = document.getElementById('profileSlug');
+    const profileUrlInput = document.getElementById('profileUrl');
 
-    let currentLogoUrl = "";
-
-    function setStatus(message, isError = false) {
-      statusBox.textContent = message;
-      statusBox.style.borderColor = isError ? "rgba(239,68,68,.35)" : "rgba(255,255,255,.10)";
-      statusBox.style.background = isError ? "rgba(239,68,68,.10)" : "rgba(255,255,255,.04)";
+    function getBusinessIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id');
     }
 
-    function showPreview(src) {
-      if (!src) {
-        logoPreview.removeAttribute("src");
-        logoPreview.style.display = "none";
-        return;
-      }
-
-      logoPreview.src = src;
-      logoPreview.style.display = "block";
+    function showMessage(type, text) {
+      messageBox.className = 'message ' + type;
+      messageBox.textContent = text;
     }
 
-    logoFileInput.addEventListener("change", () => {
-      const file = logoFileInput.files[0];
+    function clearMessage() {
+      messageBox.className = 'message';
+      messageBox.textContent = '';
+    }
 
-      if (!file) {
-        showPreview(currentLogoUrl);
-        return;
+    function setViewProfileLink(profileUrl) {
+      if (profileUrl) {
+        viewProfileBtn.href = profileUrl;
+        viewProfileBtn.style.pointerEvents = 'auto';
+        viewProfileBtn.style.opacity = '1';
+      } else {
+        viewProfileBtn.href = '#';
+        viewProfileBtn.style.pointerEvents = 'none';
+        viewProfileBtn.style.opacity = '0.5';
       }
+    }
 
-      const localUrl = URL.createObjectURL(file);
-      showPreview(localUrl);
-      setStatus("Logo seleccionado. Falta guardar cambios para subirlo.");
-    });
+    function fillForm(data) {
+      businessIdInput.value = data.id ?? '';
+      nameInput.value = data.name ?? '';
+      categoryInput.value = data.category ?? '';
+      cityInput.value = data.city ?? '';
+      addressInput.value = data.address ?? '';
+      hoursInput.value = data.hours ?? '';
+      phoneInput.value = data.phone ?? '';
+      emailInput.value = data.email ?? '';
+      websiteInput.value = data.website ?? '';
+      logoInput.value = data.logo ?? '';
+      taglineInput.value = data.tagline ?? '';
+      sourceInput.value = data.source ?? '';
+      isclientInput.value = String(Boolean(data.isclient));
+      featuredInput.value = String(Boolean(data.featured));
+      bioInput.value = data.bio ?? '';
+      profileSlugInput.value = data.profile_slug ?? '';
+      profileUrlInput.value = data.profileurl ?? '';
+      setViewProfileLink(data.profileurl ?? '');
+    }
 
     async function loadBusiness() {
-      if (!id) {
-        setStatus("Falta el parámetro ?id= en la URL. Ejemplo: edit.html?id=1", true);
+      const businessId = getBusinessIdFromUrl();
+
+      if (!businessId) {
+        loadingBox.textContent = 'Missing business id in URL. Open edit.html?id=NUMBER';
         return;
       }
 
-      setStatus("Cargando negocio...");
+      const { data, error } = await supabaseClient
+        .from('businesses')
+        .select(`
+          id,
+          name,
+          category,
+          city,
+          hours,
+          phone,
+          website,
+          tagline,
+          bio,
+          logo,
+          profileurl,
+          source,
+          isclient,
+          address,
+          email,
+          featured,
+          profile_slug
+        `)
+        .eq('id', businessId)
+        .maybeSingle();
 
-      const { data, error } = await supabase
-        .from("businesses")
-        .select("*")
-        .eq("id", id)
-        .single();
+      if (error || !data) {
+        loadingBox.textContent = 'Unable to load this business.';
+        return;
+      }
+
+      fillForm(data);
+      loadingBox.style.display = 'none';
+      editorCard.style.display = 'block';
+    }
+
+    async function refreshBusiness(id) {
+      const { data, error } = await supabaseClient
+        .from('businesses')
+        .select(`
+          id,
+          name,
+          category,
+          city,
+          hours,
+          phone,
+          website,
+          tagline,
+          bio,
+          logo,
+          profileurl,
+          source,
+          isclient,
+          address,
+          email,
+          featured,
+          profile_slug
+        `)
+        .eq('id', id)
+        .maybeSingle();
+
+      if (!error && data) {
+        fillForm(data);
+      }
+    }
+
+    businessForm.addEventListener('submit', async function(event) {
+      event.preventDefault();
+      clearMessage();
+
+      const businessId = businessIdInput.value;
+
+      const payload = {
+        name: nameInput.value.trim(),
+        category: categoryInput.value.trim(),
+        city: cityInput.value.trim(),
+        address: addressInput.value.trim(),
+        hours: hoursInput.value.trim(),
+        phone: phoneInput.value.trim(),
+        email: emailInput.value.trim(),
+        website: websiteInput.value.trim(),
+        logo: logoInput.value.trim(),
+        tagline: taglineInput.value.trim(),
+        source: sourceInput.value.trim(),
+        isclient: isclientInput.value === 'true',
+        featured: featuredInput.value === 'true',
+        bio: bioInput.value.trim()
+      };
+
+      const { error } = await supabaseClient
+        .from('businesses')
+        .update(payload)
+        .eq('id', businessId);
 
       if (error) {
-        console.error("LOAD ERROR:", error);
-        setStatus("No se pudo cargar el negocio.", true);
+        showMessage('error', 'Unable to save changes.');
         return;
       }
 
-      if (!data) {
-        setStatus("No se encontró negocio con ese id.", true);
-        return;
-      }
-
-      document.getElementById("name").value = data.name || "";
-      document.getElementById("category").value = data.category || "";
-      document.getElementById("city").value = data.city || "";
-      document.getElementById("address").value = data.address || "";
-      document.getElementById("hours").value = data.hours || "";
-      document.getElementById("phone").value = data.phone || "";
-      document.getElementById("website").value = data.website || "";
-      document.getElementById("tagline").value = data.tagline || "";
-      document.getElementById("bio").value = data.bio || "";
-
-      currentLogoUrl = data.logo || "";
-      showPreview(currentLogoUrl);
-
-      setStatus("Negocio cargado correctamente.");
-    }
-
-    async function uploadLogoIfNeeded() {
-      const file = logoFileInput.files[0];
-      if (!file) return currentLogoUrl;
-
-      const ext = file.name.split(".").pop();
-      const filePath = `business-${id}/logo-${Date.now()}.${ext}`;
-
-      const { error: uploadError } = await supabase
-        .storage
-        .from("business-logos")
-        .upload(filePath, file, {
-          cacheControl: "3600",
-          upsert: true
-        });
-
-      if (uploadError) {
-        console.error("UPLOAD ERROR:", uploadError);
-        throw new Error("No se pudo subir el logo.");
-      }
-
-      const { data } = supabase
-        .storage
-        .from("business-logos")
-        .getPublicUrl(filePath);
-
-      return data.publicUrl;
-    }
-
-    document.getElementById("form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      try {
-        setStatus("Guardando cambios...");
-
-        const finalLogoUrl = await uploadLogoIfNeeded();
-
-        const payload = {
-          name: document.getElementById("name").value.trim(),
-          category: document.getElementById("category").value.trim(),
-          city: document.getElementById("city").value.trim(),
-          address: document.getElementById("address").value.trim(),
-          hours: document.getElementById("hours").value.trim(),
-          phone: document.getElementById("phone").value.trim(),
-          website: document.getElementById("website").value.trim(),
-          tagline: document.getElementById("tagline").value.trim(),
-          bio: document.getElementById("bio").value.trim(),
-          logo: finalLogoUrl
-        };
-
-        const { error } = await supabase
-          .from("businesses")
-          .update(payload)
-          .eq("id", id);
-
-        if (error) {
-          console.error("UPDATE ERROR:", error);
-          setStatus("No se pudieron guardar los cambios.", true);
-          return;
-        }
-
-        currentLogoUrl = finalLogoUrl;
-        showPreview(currentLogoUrl);
-        logoFileInput.value = "";
-
-        setStatus("Perfil actualizado correctamente.");
-      } catch (err) {
-        console.error("SAVE ERROR:", err);
-        setStatus(err.message || "Error guardando cambios.", true);
-      }
+      await refreshBusiness(businessId);
+      showMessage('success', 'Changes saved successfully.');
     });
-
-    document.getElementById("refreshBtn").addEventListener("click", loadBusiness);
 
     loadBusiness();
   </script>
