@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BSS Operations</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BSS Operations - Maintenance</title>
   <style>
     * {
       box-sizing: border-box;
@@ -12,360 +11,47 @@
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f7fb;
-      color: #111827;
-    }
-
-    .topbar {
-      background: #111827;
-      color: white;
-      padding: 18px 24px;
-      font-size: 22px;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 30px 20px 60px;
-    }
-
-    .loading,
-    .error-box,
-    .empty-box {
-      background: white;
-      border-radius: 14px;
-      padding: 30px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .profile-card {
-      background: white;
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-    }
-
-    .hero {
-      background: linear-gradient(135deg, #111827, #1f2937);
-      color: white;
-      padding: 40px 30px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 25px;
-      align-items: center;
-    }
-
-    .logo-box {
-      width: 140px;
-      height: 140px;
-      border-radius: 18px;
-      background: white;
+      padding: 0;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    .logo-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .hero-text {
-      flex: 1;
-      min-width: 260px;
-    }
-
-    .business-name {
-      font-size: 34px;
-      font-weight: bold;
-      margin: 0 0 10px;
-    }
-
-    .tagline {
-      font-size: 18px;
-      color: #d1d5db;
-      margin: 0 0 15px;
-    }
-
-    .category-badge {
-      display: inline-block;
-      background: #2563eb;
-      color: white;
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .content {
-      padding: 30px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-
-    .section {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 20px;
-    }
-
-    .section h2 {
-      margin: 0 0 14px;
-      font-size: 20px;
-      color: #111827;
-    }
-
-    .detail-row {
-      margin-bottom: 12px;
-      line-height: 1.5;
-    }
-
-    .detail-label {
-      font-weight: bold;
-      color: #374151;
-    }
-
-    .bio-text {
-      line-height: 1.7;
-      color: #374151;
-      white-space: pre-line;
-    }
-
-    .action-link {
-      display: inline-block;
-      margin-top: 12px;
-      text-decoration: none;
-      background: #111827;
-      color: white;
-      padding: 12px 16px;
-      border-radius: 10px;
-      font-weight: bold;
-    }
-
-    .action-link:hover {
-      background: #000000;
-    }
-
-    .footer-note {
+      background: #111111;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
       text-align: center;
-      color: #6b7280;
-      font-size: 14px;
-      margin-top: 25px;
     }
 
-    @media (max-width: 800px) {
-      .content {
-        grid-template-columns: 1fr;
-      }
+    .wrapper {
+      max-width: 700px;
+      padding: 40px 20px;
+    }
 
-      .business-name {
-        font-size: 28px;
-      }
+    .logo {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
 
-      .hero {
-        padding: 28px 20px;
-      }
+    h1 {
+      font-size: 36px;
+      margin-bottom: 15px;
+    }
 
-      .content {
-        padding: 20px;
-      }
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #cccccc;
+      margin: 0;
     }
   </style>
 </head>
 <body>
-  <div class="topbar">BSS Operations</div>
-
-  <div class="container">
-    <div id="app" class="loading">Loading business profile...</div>
+  <div class="wrapper">
+    <div class="logo">BSS Operations</div>
+    <h1>System Under Maintenance</h1>
+    <p>We are currently working on improvements to the website.<br>Please check back later.</p>
   </div>
-
-  <script>
-    const SUPABASE_URL = 'https://ikpipurcoztxanrdwzvm.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcGlwdXJjb3p0eGFucmR3enZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTc0MDIsImV4cCI6MjA5MjA5MzQwMn0.E33Gc3OyYkig81xsvF6T9r_ANtFbSUc24D1vLenn3y4';
-
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    const app = document.getElementById('app');
-
-    function getSlugFromUrl() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get('slug');
-    }
-
-    function escapeHtml(value) {
-      if (value === null || value === undefined) return '';
-      return String(value)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-    }
-
-    function normalizeWebsite(url) {
-      if (!url) return '';
-      if (url.startsWith('http://') || url.startsWith('https://')) {
-        return url;
-      }
-      return 'https://' + url;
-    }
-
-    function isPublishReady(business) {
-      return (
-        business &&
-        business.name &&
-        business.logo &&
-        business.address &&
-        business.hours
-      );
-    }
-
-    function renderError(message) {
-      app.className = 'error-box';
-      app.innerHTML = `
-        <h2>Profile unavailable</h2>
-        <p>${escapeHtml(message)}</p>
-      `;
-    }
-
-    function renderEmptyHome() {
-      app.className = 'empty-box';
-      app.innerHTML = `
-        <h2>Welcome to BSS Operations</h2>
-        <p>This page displays public business profiles.</p>
-        <p>Please open a valid business link with a slug parameter.</p>
-      `;
-    }
-
-    function renderBusiness(business) {
-      const websiteUrl = normalizeWebsite(business.website);
-      const websiteButton = websiteUrl
-        ? `<a class="action-link" href="${escapeHtml(websiteUrl)}" target="_blank" rel="noopener noreferrer">Visit Website</a>`
-        : '';
-
-      const emailBlock = business.email
-        ? `<div class="detail-row"><span class="detail-label">Email:</span> ${escapeHtml(business.email)}</div>`
-        : '';
-
-      const phoneBlock = business.phone
-        ? `<div class="detail-row"><span class="detail-label">Phone:</span> ${escapeHtml(business.phone)}</div>`
-        : '';
-
-      const cityBlock = business.city
-        ? `<div class="detail-row"><span class="detail-label">City:</span> ${escapeHtml(business.city)}</div>`
-        : '';
-
-      const sourceBlock = business.source
-        ? `<div class="detail-row"><span class="detail-label">Source:</span> ${escapeHtml(business.source)}</div>`
-        : '';
-
-      const featuredBlock = business.featured
-        ? `<div class="detail-row"><span class="detail-label">Featured:</span> Yes</div>`
-        : '';
-
-      app.className = '';
-      app.innerHTML = `
-        <div class="profile-card">
-          <div class="hero">
-            <div class="logo-box">
-              <img src="${escapeHtml(business.logo)}" alt="${escapeHtml(business.name)} logo">
-            </div>
-
-            <div class="hero-text">
-              <h1 class="business-name">${escapeHtml(business.name)}</h1>
-              <p class="tagline">${escapeHtml(business.tagline || 'Business profile powered by BSS Operations')}</p>
-              <span class="category-badge">${escapeHtml(business.category || 'Business')}</span>
-            </div>
-          </div>
-
-          <div class="content">
-            <div class="section">
-              <h2>Business Details</h2>
-              <div class="detail-row"><span class="detail-label">Address:</span> ${escapeHtml(business.address || 'Not provided')}</div>
-              <div class="detail-row"><span class="detail-label">Hours:</span> ${escapeHtml(business.hours || 'Not provided')}</div>
-              ${phoneBlock}
-              ${emailBlock}
-              ${cityBlock}
-              ${sourceBlock}
-              ${featuredBlock}
-              ${websiteButton}
-            </div>
-
-            <div class="section">
-              <h2>About</h2>
-              <div class="bio-text">${escapeHtml(business.bio || 'No business description available yet.')}</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="footer-note">
-          Profile managed by BSS Operations
-        </div>
-      `;
-    }
-
-    async function loadBusinessProfile() {
-      const slug = getSlugFromUrl();
-
-      if (!slug) {
-        renderEmptyHome();
-        return;
-      }
-
-      const { data, error } = await supabaseClient
-        .from('businesses')
-        .select(`
-          id,
-          name,
-          category,
-          city,
-          hours,
-          phone,
-          website,
-          tagline,
-          bio,
-          logo,
-          profileurl,
-          source,
-          isclient,
-          address,
-          email,
-          featured,
-          profile_slug
-        `)
-        .eq('profile_slug', slug)
-        .maybeSingle();
-
-      if (error) {
-        renderError('A database error occurred while loading the profile.');
-        console.error(error);
-        return;
-      }
-
-      if (!data) {
-        renderError('No business was found for this link.');
-        return;
-      }
-
-      if (!isPublishReady(data)) {
-        renderError('This profile is not ready to be published yet.');
-        return;
-      }
-
-      renderBusiness(data);
-    }
-
-    loadBusinessProfile();
-  </script>
 </body>
 </html>
