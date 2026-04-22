@@ -313,9 +313,12 @@
     const profileSlugInput = document.getElementById('profileSlug');
     const profileUrlInput = document.getElementById('profileUrl');
 
-    function getBusinessIdFromUrl() {
+    let currentBusinessId = null;
+    let currentEditToken = null;
+
+    function getTokenFromUrl() {
       const params = new URLSearchParams(window.location.search);
-      return params.get('id');
+      return params.get('token');
     }
 
     function showMessage(type, text) {
@@ -341,6 +344,7 @@
     }
 
     function fillForm(data) {
+      currentBusinessId = data.id;
       businessIdInput.value = data.id ?? '';
       nameInput.value = data.name ?? '';
       categoryInput.value = data.category ?? '';
@@ -362,10 +366,10 @@
     }
 
     async function loadBusiness() {
-      const businessId = getBusinessIdFromUrl();
+      currentEditToken = getTokenFromUrl();
 
-      if (!businessId) {
-        loadingBox.textContent = 'Missing business id in URL. Open edit.html?id=NUMBER';
+      if (!currentEditToken) {
+        loadingBox.textContent = 'Missing token in URL. Open edit.html?token=YOUR_PRIVATE_TOKEN';
         return;
       }
 
@@ -388,9 +392,10 @@
           address,
           email,
           featured,
-          profile_slug
+          profile_slug,
+          edit_token
         `)
-        .eq('id', businessId)
+        .eq('edit_token', currentEditToken)
         .maybeSingle();
 
       if (error || !data) {
@@ -403,7 +408,7 @@
       editorCard.style.display = 'block';
     }
 
-    async function refreshBusiness(id) {
+    async function refreshBusiness() {
       const { data, error } = await supabaseClient
         .from('businesses')
         .select(`
@@ -423,9 +428,10 @@
           address,
           email,
           featured,
-          profile_slug
+          profile_slug,
+          edit_token
         `)
-        .eq('id', id)
+        .eq('edit_token', currentEditToken)
         .maybeSingle();
 
       if (!error && data) {
@@ -436,8 +442,6 @@
     businessForm.addEventListener('submit', async function(event) {
       event.preventDefault();
       clearMessage();
-
-      const businessId = businessIdInput.value;
 
       const payload = {
         name: nameInput.value.trim(),
@@ -459,14 +463,14 @@
       const { error } = await supabaseClient
         .from('businesses')
         .update(payload)
-        .eq('id', businessId);
+        .eq('edit_token', currentEditToken);
 
       if (error) {
         showMessage('error', 'Unable to save changes.');
         return;
       }
 
-      await refreshBusiness(businessId);
+      await refreshBusiness();
       showMessage('success', 'Changes saved successfully.');
     });
 
