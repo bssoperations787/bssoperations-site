@@ -17,6 +17,10 @@
       color: #111827;
     }
 
+    a {
+      text-decoration: none;
+    }
+
     .topbar {
       background: #111827;
       color: white;
@@ -27,7 +31,7 @@
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 1180px;
       margin: 0 auto;
       padding: 30px 20px 60px;
     }
@@ -36,93 +40,32 @@
     .error-box,
     .empty-box {
       background: white;
-      border-radius: 14px;
+      border-radius: 18px;
       padding: 30px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
       text-align: center;
       margin-top: 20px;
     }
 
-    .profile-card {
-      background: white;
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-    }
-
-    .hero {
-      background: linear-gradient(135deg, #111827, #1f2937);
-      color: white;
-      padding: 40px 30px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 25px;
-      align-items: center;
-    }
-
-    .logo-box {
-      width: 140px;
-      height: 140px;
-      border-radius: 18px;
-      background: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    .logo-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .hero-text {
-      flex: 1;
-      min-width: 260px;
-    }
-
-    .business-name {
-      font-size: 34px;
-      font-weight: bold;
-      margin: 0 0 10px;
-    }
-
-    .tagline {
-      font-size: 18px;
-      color: #d1d5db;
-      margin: 0 0 15px;
-    }
-
-    .category-badge {
-      display: inline-block;
-      background: #2563eb;
-      color: white;
-      padding: 8px 14px;
-      border-radius: 999px;
+    .footer-note {
+      text-align: center;
+      color: #6b7280;
       font-size: 14px;
+      margin-top: 25px;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 12px;
+      background: #111827;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 10px;
       font-weight: bold;
     }
 
-    .content {
-      padding: 30px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-
-    .section {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 20px;
-    }
-
-    .section h2 {
-      margin: 0 0 14px;
-      font-size: 20px;
-      color: #111827;
+    .button:hover {
+      opacity: 0.92;
     }
 
     .detail-row {
@@ -141,43 +84,344 @@
       white-space: pre-line;
     }
 
-    .action-link {
+    /* CLASSIC */
+    .classic-card {
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .classic-hero {
+      background: linear-gradient(135deg, #111827, #1f2937);
+      color: white;
+      padding: 40px 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .classic-logo {
+      width: 140px;
+      height: 140px;
+      border-radius: 18px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .classic-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .classic-title {
+      font-size: 34px;
+      font-weight: bold;
+      margin: 0 0 10px;
+    }
+
+    .classic-tagline {
+      font-size: 18px;
+      color: #d1d5db;
+      margin: 0 0 15px;
+    }
+
+    .classic-badge {
+      display: inline-block;
+      background: #2563eb;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .classic-content {
+      padding: 30px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .classic-section {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .classic-section h2 {
+      margin: 0 0 14px;
+      font-size: 20px;
+    }
+
+    /* MODERN */
+    .modern-card {
+      background: #ffffff;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .modern-cover {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      padding: 54px 30px 90px;
+      color: white;
+      position: relative;
+    }
+
+    .modern-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .modern-logo {
+      width: 130px;
+      height: 130px;
+      border-radius: 24px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.15);
+      border: 3px solid rgba(255, 255, 255, 0.35);
+      flex-shrink: 0;
+      backdrop-filter: blur(8px);
+    }
+
+    .modern-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modern-title {
+      margin: 0 0 10px;
+      font-size: 40px;
+      line-height: 1.1;
+    }
+
+    .modern-tagline {
+      margin: 0 0 14px;
+      font-size: 18px;
+      max-width: 720px;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .modern-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      padding: 9px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: bold;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .modern-body {
+      margin-top: -54px;
+      padding: 0 24px 24px;
+    }
+
+    .modern-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 22px;
+    }
+
+    .modern-panel {
+      background: white;
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+    }
+
+    .modern-panel h2 {
+      margin-top: 0;
+      margin-bottom: 16px;
+      font-size: 22px;
+    }
+
+    .modern-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .modern-stat {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      padding: 14px;
+    }
+
+    .modern-stat-label {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: bold;
+    }
+
+    .modern-stat-value {
+      font-size: 15px;
+      font-weight: bold;
+      color: #111827;
+    }
+
+    /* PREMIUM */
+    .premium-card {
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.22);
+    }
+
+    .premium-top {
+      padding: 36px 34px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .premium-brand {
+      font-size: 12px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #cbd5e1;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .premium-main {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .premium-logo {
+      width: 180px;
+      height: 180px;
+      border-radius: 24px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .premium-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .premium-title {
+      font-size: 44px;
+      line-height: 1.05;
+      margin: 0 0 14px;
+      color: #ffffff;
+    }
+
+    .premium-tagline {
+      color: #cbd5e1;
+      font-size: 18px;
+      margin: 0 0 18px;
+      max-width: 720px;
+    }
+
+    .premium-badge {
+      display: inline-block;
+      padding: 9px 16px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #d4af37, #f8e08e);
+      color: #111827;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .premium-body {
+      padding: 28px 34px 34px;
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+    }
+
+    .premium-panel {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      padding: 22px;
+    }
+
+    .premium-panel h2 {
+      margin-top: 0;
+      margin-bottom: 16px;
+      font-size: 22px;
+      color: #ffffff;
+    }
+
+    .premium-detail-row {
+      margin-bottom: 12px;
+      line-height: 1.5;
+      color: #e2e8f0;
+    }
+
+    .premium-detail-label {
+      font-weight: bold;
+      color: #f8fafc;
+    }
+
+    .premium-bio {
+      white-space: pre-line;
+      line-height: 1.8;
+      color: #e2e8f0;
+    }
+
+    .premium-button {
       display: inline-block;
       margin-top: 12px;
-      text-decoration: none;
-      background: #111827;
-      color: white;
+      background: linear-gradient(135deg, #d4af37, #f8e08e);
+      color: #111827;
       padding: 12px 16px;
       border-radius: 10px;
       font-weight: bold;
     }
 
-    .action-link:hover {
-      background: #000000;
-    }
-
-    .footer-note {
-      text-align: center;
-      color: #6b7280;
-      font-size: 14px;
-      margin-top: 25px;
-    }
-
-    @media (max-width: 800px) {
-      .content {
+    @media (max-width: 900px) {
+      .classic-content,
+      .modern-grid,
+      .premium-body,
+      .premium-main {
         grid-template-columns: 1fr;
       }
 
-      .business-name {
-        font-size: 28px;
+      .premium-main {
+        display: grid;
       }
 
-      .hero {
-        padding: 28px 20px;
+      .modern-stats {
+        grid-template-columns: 1fr;
       }
 
-      .content {
-        padding: 20px;
+      .classic-title,
+      .modern-title,
+      .premium-title {
+        font-size: 30px;
+      }
+
+      .modern-cover {
+        padding-bottom: 74px;
+      }
+
+      .modern-body {
+        margin-top: -40px;
       }
     }
   </style>
@@ -194,7 +438,6 @@
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcGlwdXJjb3p0eGFucmR3enZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTc0MDIsImV4cCI6MjA5MjA5MzQwMn0.E33Gc3OyYkig81xsvF6T9r_ANtFbSUc24D1vLenn3y4';
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
     const app = document.getElementById('app');
 
     function getSlugFromUrl() {
@@ -221,13 +464,7 @@
     }
 
     function isPublishReady(business) {
-      return (
-        business &&
-        business.name &&
-        business.logo &&
-        business.address &&
-        business.hours
-      );
+      return business && business.name && business.logo && business.address && business.hours;
     }
 
     function renderError(message) {
@@ -247,71 +484,217 @@
       `;
     }
 
-    function renderBusiness(business) {
+    function buildCommonParts(business) {
       const websiteUrl = normalizeWebsite(business.website);
-      const websiteButton = websiteUrl
-        ? `<a class="action-link" href="${escapeHtml(websiteUrl)}" target="_blank" rel="noopener noreferrer">Visit Website</a>`
-        : '';
 
-      const emailBlock = business.email
-        ? `<div class="detail-row"><span class="detail-label">Email:</span> ${escapeHtml(business.email)}</div>`
-        : '';
+      return {
+        websiteUrl,
+        websiteButton: websiteUrl
+          ? `<a class="button" href="${escapeHtml(websiteUrl)}" target="_blank" rel="noopener noreferrer">Visit Website</a>`
+          : '',
+        premiumWebsiteButton: websiteUrl
+          ? `<a class="premium-button" href="${escapeHtml(websiteUrl)}" target="_blank" rel="noopener noreferrer">Visit Website</a>`
+          : '',
+        phoneBlock: business.phone
+          ? `<div class="detail-row"><span class="detail-label">Phone:</span> ${escapeHtml(business.phone)}</div>`
+          : '',
+        emailBlock: business.email
+          ? `<div class="detail-row"><span class="detail-label">Email:</span> ${escapeHtml(business.email)}</div>`
+          : '',
+        cityBlock: business.city
+          ? `<div class="detail-row"><span class="detail-label">City:</span> ${escapeHtml(business.city)}</div>`
+          : '',
+        sourceBlock: business.source
+          ? `<div class="detail-row"><span class="detail-label">Source:</span> ${escapeHtml(business.source)}</div>`
+          : '',
+        featuredBlock: business.featured
+          ? `<div class="detail-row"><span class="detail-label">Featured:</span> Yes</div>`
+          : '',
+        premiumPhoneBlock: business.phone
+          ? `<div class="premium-detail-row"><span class="premium-detail-label">Phone:</span> ${escapeHtml(business.phone)}</div>`
+          : '',
+        premiumEmailBlock: business.email
+          ? `<div class="premium-detail-row"><span class="premium-detail-label">Email:</span> ${escapeHtml(business.email)}</div>`
+          : '',
+        premiumCityBlock: business.city
+          ? `<div class="premium-detail-row"><span class="premium-detail-label">City:</span> ${escapeHtml(business.city)}</div>`
+          : '',
+        premiumSourceBlock: business.source
+          ? `<div class="premium-detail-row"><span class="premium-detail-label">Source:</span> ${escapeHtml(business.source)}</div>`
+          : '',
+        premiumFeaturedBlock: business.featured
+          ? `<div class="premium-detail-row"><span class="premium-detail-label">Featured:</span> Yes</div>`
+          : ''
+      };
+    }
 
-      const phoneBlock = business.phone
-        ? `<div class="detail-row"><span class="detail-label">Phone:</span> ${escapeHtml(business.phone)}</div>`
-        : '';
-
-      const cityBlock = business.city
-        ? `<div class="detail-row"><span class="detail-label">City:</span> ${escapeHtml(business.city)}</div>`
-        : '';
-
-      const sourceBlock = business.source
-        ? `<div class="detail-row"><span class="detail-label">Source:</span> ${escapeHtml(business.source)}</div>`
-        : '';
-
-      const featuredBlock = business.featured
-        ? `<div class="detail-row"><span class="detail-label">Featured:</span> Yes</div>`
-        : '';
+    function renderClassicTemplate(business) {
+      const parts = buildCommonParts(business);
 
       app.className = '';
       app.innerHTML = `
-        <div class="profile-card">
-          <div class="hero">
-            <div class="logo-box">
+        <div class="classic-card">
+          <div class="classic-hero">
+            <div class="classic-logo">
               <img src="${escapeHtml(business.logo)}" alt="${escapeHtml(business.name)} logo">
             </div>
 
-            <div class="hero-text">
-              <h1 class="business-name">${escapeHtml(business.name)}</h1>
-              <p class="tagline">${escapeHtml(business.tagline || 'Business profile powered by BSS Operations')}</p>
-              <span class="category-badge">${escapeHtml(business.category || 'Business')}</span>
+            <div>
+              <h1 class="classic-title">${escapeHtml(business.name)}</h1>
+              <p class="classic-tagline">${escapeHtml(business.tagline || 'Business profile powered by BSS Operations')}</p>
+              <span class="classic-badge">${escapeHtml(business.category || 'Business')}</span>
             </div>
           </div>
 
-          <div class="content">
-            <div class="section">
+          <div class="classic-content">
+            <div class="classic-section">
               <h2>Business Details</h2>
               <div class="detail-row"><span class="detail-label">Address:</span> ${escapeHtml(business.address || 'Not provided')}</div>
               <div class="detail-row"><span class="detail-label">Hours:</span> ${escapeHtml(business.hours || 'Not provided')}</div>
-              ${phoneBlock}
-              ${emailBlock}
-              ${cityBlock}
-              ${sourceBlock}
-              ${featuredBlock}
-              ${websiteButton}
+              ${parts.phoneBlock}
+              ${parts.emailBlock}
+              ${parts.cityBlock}
+              ${parts.sourceBlock}
+              ${parts.featuredBlock}
+              ${parts.websiteButton}
             </div>
 
-            <div class="section">
+            <div class="classic-section">
               <h2>About</h2>
               <div class="bio-text">${escapeHtml(business.bio || 'No business description available yet.')}</div>
             </div>
           </div>
         </div>
 
-        <div class="footer-note">
-          Profile managed by BSS Operations
-        </div>
+        <div class="footer-note">Profile managed by BSS Operations</div>
       `;
+    }
+
+    function renderModernTemplate(business) {
+      const parts = buildCommonParts(business);
+
+      app.className = '';
+      app.innerHTML = `
+        <div class="modern-card">
+          <div class="modern-cover">
+            <div class="modern-header">
+              <div class="modern-logo">
+                <img src="${escapeHtml(business.logo)}" alt="${escapeHtml(business.name)} logo">
+              </div>
+
+              <div>
+                <h1 class="modern-title">${escapeHtml(business.name)}</h1>
+                <p class="modern-tagline">${escapeHtml(business.tagline || 'Business profile powered by BSS Operations')}</p>
+                <span class="modern-badge">${escapeHtml(business.category || 'Business')}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="modern-body">
+            <div class="modern-grid">
+              <div class="modern-panel">
+                <h2>About This Business</h2>
+                <div class="bio-text">${escapeHtml(business.bio || 'No business description available yet.')}</div>
+              </div>
+
+              <div class="modern-panel">
+                <h2>Quick Details</h2>
+
+                <div class="modern-stats">
+                  <div class="modern-stat">
+                    <div class="modern-stat-label">Address</div>
+                    <div class="modern-stat-value">${escapeHtml(business.address || 'Not provided')}</div>
+                  </div>
+
+                  <div class="modern-stat">
+                    <div class="modern-stat-label">Hours</div>
+                    <div class="modern-stat-value">${escapeHtml(business.hours || 'Not provided')}</div>
+                  </div>
+
+                  <div class="modern-stat">
+                    <div class="modern-stat-label">City</div>
+                    <div class="modern-stat-value">${escapeHtml(business.city || 'Not provided')}</div>
+                  </div>
+
+                  <div class="modern-stat">
+                    <div class="modern-stat-label">Phone</div>
+                    <div class="modern-stat-value">${escapeHtml(business.phone || 'Not provided')}</div>
+                  </div>
+                </div>
+
+                ${parts.emailBlock}
+                ${parts.sourceBlock}
+                ${parts.featuredBlock}
+                ${parts.websiteButton}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-note">Profile managed by BSS Operations</div>
+      `;
+    }
+
+    function renderPremiumTemplate(business) {
+      const parts = buildCommonParts(business);
+
+      app.className = '';
+      app.innerHTML = `
+        <div class="premium-card">
+          <div class="premium-top">
+            <div class="premium-brand">BSS Featured Profile</div>
+
+            <div class="premium-main">
+              <div class="premium-logo">
+                <img src="${escapeHtml(business.logo)}" alt="${escapeHtml(business.name)} logo">
+              </div>
+
+              <div>
+                <h1 class="premium-title">${escapeHtml(business.name)}</h1>
+                <p class="premium-tagline">${escapeHtml(business.tagline || 'Business profile powered by BSS Operations')}</p>
+                <span class="premium-badge">${escapeHtml(business.category || 'Premium Business')}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="premium-body">
+            <div class="premium-panel">
+              <h2>Business Information</h2>
+              <div class="premium-detail-row"><span class="premium-detail-label">Address:</span> ${escapeHtml(business.address || 'Not provided')}</div>
+              <div class="premium-detail-row"><span class="premium-detail-label">Hours:</span> ${escapeHtml(business.hours || 'Not provided')}</div>
+              ${parts.premiumPhoneBlock}
+              ${parts.premiumEmailBlock}
+              ${parts.premiumCityBlock}
+              ${parts.premiumSourceBlock}
+              ${parts.premiumFeaturedBlock}
+              ${parts.premiumWebsiteButton}
+            </div>
+
+            <div class="premium-panel">
+              <h2>About</h2>
+              <div class="premium-bio">${escapeHtml(business.bio || 'No business description available yet.')}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-note">Profile managed by BSS Operations</div>
+      `;
+    }
+
+    function renderBusiness(business) {
+      const selectedTemplate = business.template || 'classic';
+
+      if (selectedTemplate === 'modern') {
+        renderModernTemplate(business);
+        return;
+      }
+
+      if (selectedTemplate === 'premium') {
+        renderPremiumTemplate(business);
+        return;
+      }
+
+      renderClassicTemplate(business);
     }
 
     async function loadBusinessProfile() {
@@ -341,7 +724,8 @@
           address,
           email,
           featured,
-          profile_slug
+          profile_slug,
+          template
         `)
         .eq('profile_slug', slug)
         .maybeSingle();
