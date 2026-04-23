@@ -238,6 +238,15 @@
           </div>
 
           <div class="field">
+            <label for="template">Template</label>
+            <select id="template">
+              <option value="classic">Classic</option>
+              <option value="modern">Modern</option>
+              <option value="premium">Premium</option>
+            </select>
+          </div>
+
+          <div class="field">
             <label for="isclient">Is Client</label>
             <select id="isclient">
               <option value="false">No</option>
@@ -301,6 +310,7 @@
     const logoInput = document.getElementById('logo');
     const taglineInput = document.getElementById('tagline');
     const sourceInput = document.getElementById('source');
+    const templateInput = document.getElementById('template');
     const isclientInput = document.getElementById('isclient');
     const featuredInput = document.getElementById('featured');
     const bioInput = document.getElementById('bio');
@@ -349,6 +359,7 @@
       logoInput.value = data.logo ?? '';
       taglineInput.value = data.tagline ?? '';
       sourceInput.value = data.source ?? '';
+      templateInput.value = data.template ?? 'classic';
       isclientInput.value = String(Boolean(data.isclient));
       featuredInput.value = String(Boolean(data.featured));
       bioInput.value = data.bio ?? '';
@@ -384,7 +395,8 @@
           address,
           email,
           featured,
-          profile_slug
+          profile_slug,
+          template
         `)
         .eq('edit_token', currentEditToken)
         .maybeSingle();
@@ -419,7 +431,8 @@
           address,
           email,
           featured,
-          profile_slug
+          profile_slug,
+          template
         `)
         .eq('edit_token', currentEditToken)
         .maybeSingle();
@@ -445,6 +458,7 @@
         logo: logoInput.value.trim(),
         tagline: taglineInput.value.trim(),
         source: sourceInput.value.trim(),
+        template: templateInput.value,
         isclient: isclientInput.value === 'true',
         featured: featuredInput.value === 'true',
         bio: bioInput.value.trim()
