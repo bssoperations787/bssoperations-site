@@ -83,15 +83,6 @@
       display: inline-block;
     }
 
-    .btn-primary {
-      background: #111827;
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: #000000;
-    }
-
     .btn-secondary {
       background: #e5e7eb;
       color: #111827;
@@ -130,7 +121,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 1000px;
+      min-width: 1100px;
     }
 
     th, td {
@@ -182,7 +173,8 @@
       gap: 8px;
     }
 
-    .small-link {
+    .small-link,
+    .small-button {
       text-decoration: none;
       padding: 10px 12px;
       border-radius: 10px;
@@ -191,14 +183,18 @@
       display: inline-block;
       background: #111827;
       color: white;
+      border: none;
+      cursor: pointer;
     }
 
-    .small-link.secondary {
+    .small-link.secondary,
+    .small-button.secondary {
       background: #e5e7eb;
       color: #111827;
     }
 
-    .small-link:hover {
+    .small-link:hover,
+    .small-button:hover {
       opacity: 0.9;
     }
 
@@ -223,7 +219,7 @@
       <div class="header-row">
         <div>
           <h1 class="title">Business Dashboard</h1>
-          <p class="subtitle">Manage business profiles, edit records, and open public profile pages.</p>
+          <p class="subtitle">Manage business profiles and share private edit links with clients.</p>
         </div>
 
         <div class="tools">
@@ -261,6 +257,7 @@
   <script>
     const SUPABASE_URL = 'https://ikpipurcoztxanrdwzvm.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrcGlwdXJjb3p0eGFucmR3enZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MTc0MDIsImV4cCI6MjA5MjA5MzQwMn0.E33Gc3OyYkig81xsvF6T9r_ANtFbSUc24D1vLenn3y4';
+    const SITE_BASE_URL = 'https://bssoperations.com';
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -295,6 +292,17 @@
       return !!(business.name && business.logo && business.address && business.hours);
     }
 
+    async function copyEditLink(token) {
+      const privateLink = `${SITE_BASE_URL}/edit.html?token=${encodeURIComponent(token)}`;
+
+      try {
+        await navigator.clipboard.writeText(privateLink);
+        showMessage('success', 'Private edit link copied.');
+      } catch (error) {
+        showMessage('error', 'Unable to copy the private edit link.');
+      }
+    }
+
     function renderTableRows(items) {
       if (!items.length) {
         tableBody.innerHTML = `
@@ -317,6 +325,14 @@
           ? `<a class="small-link" href="${escapeHtml(business.profileurl)}" target="_blank">View Profile</a>`
           : `<span class="small-link secondary" style="pointer-events:none;opacity:0.5;">View Profile</span>`;
 
+        const editLink = business.edit_token
+          ? `<a class="small-link secondary" href="edit.html?token=${encodeURIComponent(business.edit_token)}" target="_blank">Edit</a>`
+          : `<span class="small-link secondary" style="pointer-events:none;opacity:0.5;">Edit</span>`;
+
+        const copyButton = business.edit_token
+          ? `<button class="small-button" type="button" onclick="copyEditLink('${String(business.edit_token).replace(/'/g, "\\'")}')">Copy Edit Link</button>`
+          : `<span class="small-link secondary" style="pointer-events:none;opacity:0.5;">Copy Edit Link</span>`;
+
         return `
           <tr>
             <td>${logoHtml}</td>
@@ -328,8 +344,9 @@
             <td>${escapeHtml(business.profile_slug || '')}</td>
             <td>
               <div class="actions">
-                <a class="small-link secondary" href="edit.html?id=${encodeURIComponent(business.id)}">Edit</a>
+                ${editLink}
                 ${profileLink}
+                ${copyButton}
               </div>
             </td>
           </tr>
@@ -371,7 +388,8 @@
           logo,
           address,
           profileurl,
-          profile_slug
+          profile_slug,
+          edit_token
         `)
         .order('id', { ascending: true });
 
@@ -388,6 +406,8 @@
       allBusinesses = data || [];
       renderTableRows(allBusinesses);
     }
+
+    window.copyEditLink = copyEditLink;
 
     searchInput.addEventListener('input', applySearch);
     refreshBtn.addEventListener('click', loadBusinesses);
